@@ -17,6 +17,8 @@ Imports:
     segmented,
     ggpubr,
     GenSA
+Remotes:
+    Albluca/distutils
 RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
