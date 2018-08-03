@@ -14,8 +14,10 @@ Imports:
     parallel,
     irlba,
     ggplot2,
+    ggforce,
     segmented,
     ggpubr,
+    infotheo,
     GenSA
 Remotes:
     Albluca/distutils
