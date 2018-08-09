@@ -4,7 +4,8 @@
 \alias{GetProjectionUncertainty}
 \title{Compute projection-associted uncertainty}
 \usage{
-GetProjectionUncertainty(X, BootPG, Mode = "MedianDistPW", TargetPG = NULL)
+GetProjectionUncertainty(X, BootPG, Mode = "MedianDistPW",
+  TargetPG = NULL)
 }
 \arguments{
 \item{X}{numeric matrix containing the points to be projected}
@@ -40,22 +41,22 @@ Compute projection-associted uncertainty
 \examples{
 
   nRep <- 50
-  
-  
+
+
   TreeEPG <- computeElasticPrincipalTree(X = tree_data, NumNodes = 70,
       drawAccuracyComplexity = FALSE, drawEnergy = FALSE,
       drawPCAView = FALSE,
       nReps = nRep, ProbPoint = .9,
       TrimmingRadius = Inf,
       ICOver = "DensityProb", DensityRadius = .2)
-  
+
   PtUnc_1 <- GetProjectionUncertainty(X = tree_data, BootPG = TreeEPG[1:nRep], Mode = "MedianDistPW")
   PtUnc_2 <- GetProjectionUncertainty(X = tree_data, BootPG = TreeEPG[1:nRep], Mode = "MedianDistCentroid")
   PtUnc_3 <- GetProjectionUncertainty(X = tree_data, BootPG = TreeEPG[1:nRep], Mode = "MeanDistPW")
   PtUnc_4 <- GetProjectionUncertainty(X = tree_data, BootPG = TreeEPG[1:nRep], Mode = "MeanDistCentroid")
-  
+
   pairs(cbind(PtUnc_1, PtUnc_2, PtUnc_3, PtUnc_4))
-  
+
   PlotPG(X = tree_data, TargetPG = TreeEPG[[nRep+1]], BootPG = TreeEPG[1:nRep], GroupsLab = PtUnc_1)
   PlotPG(X = tree_data, TargetPG = TreeEPG[[nRep+1]],  GroupsLab = PtUnc_1, p.alpha = .9)
 

@@ -4,22 +4,10 @@
 \alias{RearrangePlot}
 \title{Interactivelly modify data}
 \usage{
-RearrangePlot(X, TargetPG, PGCol = "EpG", GroupsLab = NULL, PointSize = 1,
-  p.alpha = 0.4, Main = "")
+RearrangePlot(X, TargetPG, PGCol = "EpG", GroupsLab = NULL,
+  PointSize = 1, p.alpha = 0.4, Main = "")
 }
 \arguments{
-\item{X}{}
-
-\item{TargetPG}{}
-
-\item{PGCol}{}
-
-\item{GroupsLab}{}
-
-\item{PointSize}{}
-
-\item{p.alpha}{}
-
 \item{Main}{}
 }
 \description{

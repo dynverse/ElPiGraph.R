@@ -6,11 +6,11 @@
 \usage{
 CompareOnBranches(X, Paths, TargetPG, BootPG = NULL,
   OnlyIsomorphicBoot = TRUE, GroupsLab = NULL, PlotOrg = TRUE,
-  TrajCol = FALSE, Conf = 0.95, AllBP = FALSE, TrimmingRadius = Inf,
-  Partition, PrjStr, Main = "", ylab = "Feature value", alpha = 0.3,
-  ScalePT = FALSE, Features = 4, facet_rows = 3, facet_cols = 3,
-  Mode = "Var", ModePar = NULL, Log = FALSE, Span = 0.1, n.cores = 1,
-  ClusType = "SOCK", ReturnGenes = FALSE)
+  TrajCol = FALSE, Conf = 0.95, AllBP = FALSE,
+  TrimmingRadius = Inf, Partition, PrjStr, Main = "",
+  ylab = "Feature value", alpha = 0.3, ScalePT = FALSE,
+  Features = 4, facet_rows = 3, facet_cols = 3, Mode = "Var",
+  ModePar = NULL, Log = FALSE, Span = 0.1, ReturnGenes = FALSE)
 }
 \arguments{
 \item{X}{the data matrix, note that features must be names, i.e. column names must be non-empty}
@@ -77,10 +77,6 @@ as the number of the topmost interesting features according to the metric specif
 \item{Log}{boolean, should a log scale be used on the y axis}
 
 \item{Span}{the span parameter of the loess fitter}
-
-\item{n.cores}{integer, the number of parallel processes to use.}
-
-\item{ClusType}{string, the type of cluster to use if n.cores is larger than 1}
 
 \item{ReturnGenes}{boolean, should the list of genes be returned instead of the plots?}
 }

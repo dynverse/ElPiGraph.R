@@ -4,10 +4,11 @@
 \alias{GenertateConsensusGraph}
 \title{Obtain a consens tree from bootstrapped data}
 \usage{
-GenertateConsensusGraph(BootPG, Mode = "NodeDist", CollapseRadius = NULL,
-  FilterEdges.Min = NULL, FilterEdges.Max = NULL, Clusters = 100,
-  MinEdgMult = 2, MinNodeMult = 2, RemoveIsolatedNodes = TRUE,
-  OnlyLCC = FALSE, PlotResult = TRUE)
+GenertateConsensusGraph(BootPG, Mode = "NodeDist",
+  CollapseRadius = NULL, FilterEdges.Min = NULL,
+  FilterEdges.Max = NULL, Clusters = 100, MinEdgMult = 2,
+  MinNodeMult = 2, RemoveIsolatedNodes = TRUE, OnlyLCC = FALSE,
+  PlotResult = TRUE)
 }
 \arguments{
 \item{BootPG}{list of ElPiGraph structures containing the bootstrapped data}

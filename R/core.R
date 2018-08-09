@@ -5,31 +5,30 @@
 #' @param X an n-by-m numeric matrix with the coordinates of the data points
 #' @param NodePositions an k-by-m numeric matrix with the coordiante of the nodes
 #' @param TrimmingRadius Maximum distance of data points to the nodes to assign a point to a node
-#' @param nCores number of cores to use.
 #' @param SquaredX the sum by row of the squared positions rowSums(X^2). If NULL it will be calculated by the fucntion.
 #'
-#' @return A list containing two components: Partition (containing the associated nodes) and 
+#' @return A list containing two components: Partition (containing the associated nodes) and
 #' Dists (containing the squqred distance from the node)
-#' 
+#'
 #' @export
 #'
 #' @examples
 
-PartitionData <- function(X, NodePositions, SquaredX = NULL, TrimmingRadius = Inf, nCores = 1) {
-  
+PartitionData <- function(X, NodePositions, SquaredX = NULL, TrimmingRadius = Inf) {
+
   if(is.null(SquaredX)){
     SquaredX = rowSums(X^2)
   }
-  
+
   Dists <- distutils::Partition(Ar = X, Br = NodePositions, SquaredAr = SquaredX)
 
   PartVect <- Dists$Partition
   Dist <- Dists$Dist
-  
+
   # print("DEBUG (PartitionData):")
   # print(Dists$Partition)
   # print(table(PartVect))
-  
+
   if(is.finite(TrimmingRadius)){
     # print("Filtering")
     ToFilter <- (Dists$Dist > TrimmingRadius^2)
@@ -43,7 +42,7 @@ PartitionData <- function(X, NodePositions, SquaredX = NULL, TrimmingRadius = In
 
   # print("DEBUG (PartitionData):")
   # print(table(PartVect))
-  
+
   return(list(Partition = PartVect, Dists = Dist))
 
 }
@@ -59,7 +58,7 @@ PartitionData <- function(X, NodePositions, SquaredX = NULL, TrimmingRadius = In
 #' @param Mu the mu parameter. It can be a real value or a vector with a length equal to the number of nodes
 #'
 #' @return the elastic matrix
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -95,7 +94,7 @@ MakeUniformElasticMatrix <- function(Edges, Lambda, Mu) {
 #' @param Edges an e-by-2 matrix containing the index of the edges connecting the nodes
 #'
 #' @return the elastic matrix
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -109,11 +108,11 @@ Encode2ElasticMatrix <- function(Edges, Lambdas, Mus) {
   if(length(Lambdas)==1){
     Lambdas <- rep(Lambdas, NumberOfEdges)
   }
-  
+
   if(length(Mus)==1){
     Mus <- rep(Mus, NumberOfNodes)
   }
-  
+
   for(i in 1:NumberOfEdges){
     ElasticMatrix[Edges[i,1],Edges[i,2]] = Lambdas[i]
     ElasticMatrix[Edges[i,2],Edges[i,1]] = Lambdas[i]
@@ -140,7 +139,7 @@ Encode2ElasticMatrix <- function(Edges, Lambdas, Mus) {
 #' @param ElasticMatrix an e-by-e elastic matrix
 #'
 #' @return the Laplacian matrix
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -193,7 +192,7 @@ ComputeSpringLaplacianMatrix <- function(ElasticMatrix) {
 #' @param ElasticMatrix an e-by-e elastic matrix
 #'
 #' @return a list with three elements: a matrix with the edges (Edges), a vector of lambdas (Lambdas), and a vector of Mus (Mus)
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -209,11 +208,11 @@ DecodeElasticMatrix <- function(ElasticMatrix) {
   inds <- which(Edges[,1]<Edges[,2])
 
   Edges = Edges[inds,]
-  
+
   if(is.null(dim(Edges))){
     dim(Edges) <- c(1, length(Edges))
   }
-  
+
   Lambdas = L[Edges]
 
   return(list(Edges = Edges, Lambdas = Lambdas, Mus = Mus))
@@ -282,7 +281,7 @@ ComputeRelativeChangeOfNodePositions <- function(NodePositions,
 #' 2 (difference is computed using the changes in elestic energy of the configuraztions)
 #' @param SquaredX the sum (by node) of X squared. It not specified, it will be calculated by the fucntion
 #' @param FastSolve boolean, shuold the Fastsolve of Armadillo by enabled?
-#' @param DisplayWarnings boolean, should warning about convergence be displayed? 
+#' @param DisplayWarnings boolean, should warning about convergence be displayed?
 #' @param FinalEnergy string indicating the final elastic emergy associated with the configuration. Currently it can be "Base" or "Penalized"
 #' @param alpha positive numeric, the value of the alpha parameter of the penalized elastic energy
 #' @param beta positive numeric, the value of the beta parameter of the penalized elastic energy
@@ -314,25 +313,25 @@ PrimitiveElasticGraphEmbedment <- function(X,
   PointWeights = rep(1, N)
 
   #Auxiliary computations
-  
+
   SpringLaplacianMatrix = ComputeSpringLaplacianMatrix(ElasticMatrix)
-  
+
   # Main iterative EM cycle: partition, fit given the partition, repeat
 
   if(is.null(SquaredX)){
     SquaredX <- rowSums(X^2)
   }
-  
+
   # print(paste("DEBUG (PrimitiveElasticGraphEmbedment):",TrimmingRadius))
   PartDataStruct <- PartitionData(X = X, NodePositions = NodePositions,
                                   SquaredX = SquaredX,
                                   TrimmingRadius = TrimmingRadius)
-  
+
   # print("DEBUG (PrimitiveElasticGraphEmbedment):")
   # print(table(PartDataStruct$Partition))
-  
+
   if(verbose | Mode == 2){
-    OldPriGrElEn <- 
+    OldPriGrElEn <-
       distutils::ElasticEnergy(X = X,
                                NodePositions = NodePositions,
                                ElasticMatrix = ElasticMatrix,
@@ -340,32 +339,32 @@ PrimitiveElasticGraphEmbedment <- function(X,
   } else {
     OldPriGrElEn <- list(ElasticEnergy = NA, MSE = NA, EP = NA, RP = NA)
   }
-  
+
   Converged <- FALSE
-  
+
   for(i in 1:MaxNumberOfIterations){
-    
+
     if(MaxNumberOfIterations == 0){
-      
+
       Converged <- TRUE
-      
+
       PriGrElEn <- OldPriGrElEn
       difference = NA
-      
+
       NewNodePositions <- distutils::FitGraph2DataGivenPartition(X = X,
                                                                  PointWeights = PointWeights,
                                                                  NodePositions = NodePositions,
                                                                  SpringLaplacianMatrix = SpringLaplacianMatrix,
                                                                  partition = PartDataStruct$Partition,
                                                                  FastSolve = FastSolve)
-      
+
       break()
-      
+
     }
-    
+
     # Updated positions
-    
-    
+
+
     if(prob<1){
       SelPoint <- runif(nrow(X)) < prob
       while(sum(SelPoint) < 3){
@@ -385,15 +384,15 @@ PrimitiveElasticGraphEmbedment <- function(X,
                                                                  partition = PartDataStruct$Partition,
                                                                  FastSolve = FastSolve)
     }
-    
+
     NewNodePositions <- distutils::FitGraph2DataGivenPartition(X = X,
                                                                  PointWeights = PointWeights,
                                                                  NodePositions = NodePositions,
                                                                  SpringLaplacianMatrix = SpringLaplacianMatrix,
                                                                  partition = PartDataStruct$Partition,
                                                                FastSolve = FastSolve)
-    
-    
+
+
     if(verbose | Mode == 2){
       PriGrElEn <- distutils::ElasticEnergy(X = X,
                                             NodePositions = NewNodePositions,
@@ -403,31 +402,31 @@ PrimitiveElasticGraphEmbedment <- function(X,
     } else {
       PriGrElEn <- list(ElasticEnergy = NA, MSE = NA, EP = NA, RP = NA)
     }
-    
+
     # Look at differences
-    
+
     if(Mode == 1){
       difference <- ComputeRelativeChangeOfNodePositions(NodePositions, NewNodePositions)
     }
-    
+
     if(Mode == 2){
       difference <- (OldPriGrElEn$ElasticEnergy - PriGrElEn$ElasticEnergy)/PriGrElEn$ElasticEnergy
     }
-    
+
     # Print Info
-    
+
     if(verbose){
       print(paste("Iteration", i, "diff=", signif(difference, 5), "E=", signif(PriGrElEn$ElasticEnergy, 5),
                   "MSE=", signif(PriGrElEn$MSE, 5), "EP=", signif(PriGrElEn$EP, 5),
                   "RP=", signif(PriGrElEn$RP, 5)))
     }
-    
+
     # Have we converged?
-    
+
     if(!is.finite(difference)){
       difference = 0
     }
-    
+
     if(difference < eps){
       Converged <- TRUE
       break()
@@ -435,14 +434,14 @@ PrimitiveElasticGraphEmbedment <- function(X,
       if(i < MaxNumberOfIterations){
         PartDataStruct <- PartitionData(X = X, NodePositions = NewNodePositions, SquaredX = SquaredX,
                                         TrimmingRadius = TrimmingRadius)
-        
+
         NodePositions = NewNodePositions
         OldPriGrElEn = PriGrElEn
       }
     }
-    
+
   }
-  
+
   if(DisplayWarnings & !Converged){
     warning(paste0("Maximum number of iterations (", MaxNumberOfIterations, ") has been reached. diff = ", difference))
   }
@@ -452,8 +451,8 @@ PrimitiveElasticGraphEmbedment <- function(X,
   # 2) Didn't computed energy step by step due to verbose being false
   # or
   # 3) FinalEnergy != "Penalized"
-  
-  
+
+
   if( (FinalEnergy != "Base") | (!verbose & Mode != 2) ){
     if(FinalEnergy == "Base"){
       PriGrElEn <-
@@ -463,7 +462,7 @@ PrimitiveElasticGraphEmbedment <- function(X,
                                  Dists = PartDataStruct$Dists)
     }
     if(FinalEnergy == "Penalized"){
-      PriGrElEn <- 
+      PriGrElEn <-
         distutils::PenalizedElasticEnergy(X = X,
                                           NodePositions =  NewNodePositions,
                                           ElasticMatrix = ElasticMatrix,
@@ -472,8 +471,8 @@ PrimitiveElasticGraphEmbedment <- function(X,
                                           beta = beta)
     }
   }
-  
-  
+
+
   return(list(EmbeddedNodePositions = NewNodePositions,
               ElasticEnergy = PriGrElEn$ElasticEnergy,
               partition = PartDataStruct$Partition,

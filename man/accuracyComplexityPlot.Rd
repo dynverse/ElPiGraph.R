@@ -14,7 +14,7 @@ accuracyComplexityPlot(ReportTable, AdjFactor = 1, Main = "",
 
 \item{Main}{string, tht title of the plot}
 
-\item{Mode}{integer or string, the mode used to identify minima: if 'LocMin', the barcode of the 
+\item{Mode}{integer or string, the mode used to identify minima: if 'LocMin', the barcode of the
 local minima will be plotted, if the number n, the barcode will be plotted each n configurations.
 If NULL, no barcode will be plotted}
 

@@ -21,7 +21,7 @@ a list containing three elements:
 }
 \description{
 Compute the pseudotime associated to the points over the specified path.
-Note that the pseudotime of points not associted with any edges of the specified path 
+Note that the pseudotime of points not associted with any edges of the specified path
 will be set to NA.
 }
 \examples{

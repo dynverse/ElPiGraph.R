@@ -10,14 +10,14 @@ computeElasticPrincipalTree(X, NumNodes, NumEdges = Inf, InitNodes = 2,
   InitNodePositions = NULL, InitEdges = NULL, ElasticMatrix = NULL,
   AdjustVect = NULL, CenterData = TRUE, ComputeMSEP = TRUE,
   verbose = FALSE, ShowTimer = FALSE, ReduceDimension = NULL,
-  drawAccuracyComplexity = TRUE, drawPCAView = TRUE, drawEnergy = TRUE,
-  n.cores = 1, MinParOP = 20, ClusType = "Sock", nReps = 1,
-  Subsets = list(), ProbPoint = 1, Mode = 1, FinalEnergy = "Base",
-  alpha = 0, beta = 0, FastSolve = FALSE, ICOver = NULL,
-  DensityRadius = NULL, AvoidSolitary = FALSE, EmbPointProb = 1,
-  ParallelRep = FALSE, AvoidResampling = FALSE, SampleIC = TRUE,
-  AdjustElasticMatrix = NULL, AdjustElasticMatrix.Initial = NULL,
-  Lambda.Initial = NULL, Mu.Initial = NULL, ...)
+  drawAccuracyComplexity = TRUE, drawPCAView = TRUE,
+  drawEnergy = TRUE, nReps = 1, Subsets = list(), ProbPoint = 1,
+  Mode = 1, FinalEnergy = "Base", alpha = 0, beta = 0,
+  FastSolve = FALSE, ICOver = NULL, DensityRadius = NULL,
+  AvoidSolitary = FALSE, EmbPointProb = 1, AvoidResampling = FALSE,
+  SampleIC = TRUE, AdjustElasticMatrix = NULL,
+  AdjustElasticMatrix.Initial = NULL, Lambda.Initial = NULL,
+  Mu.Initial = NULL, ...)
 }
 \arguments{
 \item{X}{numerical 2D matrix, the n-by-m matrix with the position of n m-dimensional points}
@@ -67,15 +67,6 @@ dimensionality reduction. If NULL all the components will be used}
 
 \item{drawEnergy}{boolean, should changes of evergy VS the number of nodes be reported?}
 
-\item{n.cores}{either an integer (indicating the number of cores to used for the creation of a cluster) or 
-cluster structure returned, e.g., by makeCluster. If a cluster structure is used, all the nodes must contains X
-(this is done using clusterExport)}
-
-\item{MinParOP}{integer, the minimum number of operations to use parallel computation}
-
-\item{ClusType}{string, the type of cluster to use. It can gbe either "Sock" or "Fork".
-Currently fork clustering only works in Linux}
-
 \item{nReps}{integer, number of replica of the construction}
 
 \item{Subsets}{list of column names (or column number). When specified a principal tree will be computed for each of the subsets specified.}
@@ -102,8 +93,6 @@ principal tree.}
 \item{EmbPointProb}{numeric between 0 and 1. If less than 1 point will be sampled at each iteration.
 EmbPointProb indicates the probability of using each points. This is an *experimental* feature, which may
 helps speeding up the computation if a large number of points is present.}
-
-\item{ParallelRep}{boolean, should parallel execution be performed on the sampling instead of the the grammar evaluations?}
 
 \item{AvoidResampling}{booleand, should the sampling of initial conditions avoid reselecting the same points
 (or points neighbors if DensityRadius is specified)?}

@@ -4,15 +4,15 @@
 \alias{ElPrincGraph}
 \title{Core function to construct a principal elestic graph}
 \usage{
-ElPrincGraph(X, NumNodes = 100, NumEdges = Inf, Lambda, Mu, ElasticMatrix,
-  NodesPositions, AdjustVect, verbose = FALSE, n.cores = 1,
-  ClusType = "Sock", MinParOP = 20, CompileReport = FALSE,
-  ShowTimer = FALSE, ComputeMSEP = TRUE, FinalEnergy = "Base",
-  alpha = 0, beta = 0, gamma = 0, Mode = 1,
-  MaxNumberOfIterations = 10, MaxFailedOperations = Inf, MaxSteps = Inf,
-  GrammarOptimization = FALSE, eps = 0.01, TrimmingRadius = Inf,
-  GrowGrammars = list(), ShrinkGrammars = list(), GrammarOrder = c("Grow",
-  "Shrink"), FastSolve = FALSE, AvoidSolitary = FALSE, EmbPointProb = 1,
+ElPrincGraph(X, NumNodes = 100, NumEdges = Inf, Lambda, Mu,
+  ElasticMatrix, NodesPositions, AdjustVect, verbose = FALSE,
+  CompileReport = FALSE, ShowTimer = FALSE, ComputeMSEP = TRUE,
+  FinalEnergy = "Base", alpha = 0, beta = 0, gamma = 0, Mode = 1,
+  MaxNumberOfIterations = 10, MaxFailedOperations = Inf,
+  MaxSteps = Inf, GrammarOptimization = FALSE, eps = 0.01,
+  TrimmingRadius = Inf, GrowGrammars = list(),
+  ShrinkGrammars = list(), GrammarOrder = c("Grow", "Shrink"),
+  FastSolve = FALSE, AvoidSolitary = FALSE, EmbPointProb = 1,
   AdjustElasticMatrix = NULL, AdjustElasticMatrix.Initial = NULL, ...)
 }
 \arguments{
@@ -34,17 +34,6 @@ in the initial step}
 \item{AdjustVect}{boolean vector keeping track of the nodes for which the elasticity parameters have been adjusted.
 When true for a node its elasticity parameters will not be adjusted.}
 
-\item{verbose}{}
-
-\item{n.cores}{either an integer (indicating the number of cores to used for the creation of a cluster) or 
-cluster structure returned, e.g., by makeCluster. If a cluster structure is used, all the nodes must contains X
-(this is done using clusterExport)}
-
-\item{ClusType}{string, the type of cluster to use. It can gbe either "Sock" or "Fork".
-Currently fork clustering only works in Linux}
-
-\item{MinParOP}{integer, the minimum number of operations to use parallel computation}
-
 \item{CompileReport}{boolean, should a step-by-step report with various information on the
 contruction of the principal graph be compiled?}
 
@@ -57,8 +46,6 @@ contruction of the principal graph be compiled?}
 \item{alpha}{positive numeric, the value of the alpha parameter of the penalized elastic energy}
 
 \item{beta}{positive numeric, the value of the beta parameter of the penalized elastic energy}
-
-\item{gamma}{}
 
 \item{Mode}{integer, the energy computation mode}
 

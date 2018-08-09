@@ -4,8 +4,7 @@
 \alias{PartitionData}
 \title{Assign data points to a set of nodes}
 \usage{
-PartitionData(X, NodePositions, SquaredX = NULL, TrimmingRadius = Inf,
-  nCores = 1)
+PartitionData(X, NodePositions, SquaredX = NULL, TrimmingRadius = Inf)
 }
 \arguments{
 \item{X}{an n-by-m numeric matrix with the coordinates of the data points}
@@ -15,11 +14,9 @@ PartitionData(X, NodePositions, SquaredX = NULL, TrimmingRadius = Inf,
 \item{SquaredX}{the sum by row of the squared positions rowSums(X^2). If NULL it will be calculated by the fucntion.}
 
 \item{TrimmingRadius}{Maximum distance of data points to the nodes to assign a point to a node}
-
-\item{nCores}{number of cores to use.}
 }
 \value{
-A list containing two components: Partition (containing the associated nodes) and 
+A list containing two components: Partition (containing the associated nodes) and
 Dists (containing the squqred distance from the node)
 }
 \description{

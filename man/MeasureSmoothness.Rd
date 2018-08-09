@@ -5,25 +5,10 @@
 \title{Measure smoothness of the differnt feature of the data}
 \usage{
 MeasureSmoothness(X, Paths, TargetPG, SmoothMode = "lowess",
-  CollMode = "var", Partition = NULL, PrjStr = NULL, Randomize = 0, ...)
+  CollMode = "var", Partition = NULL, PrjStr = NULL, Randomize = 0,
+  ...)
 }
 \arguments{
-\item{X}{}
-
-\item{Paths}{}
-
-\item{TargetPG}{}
-
-\item{SmoothMode}{}
-
-\item{CollMode}{}
-
-\item{Partition}{}
-
-\item{PrjStr}{}
-
-\item{Randomize}{}
-
 \item{...}{}
 }
 \description{

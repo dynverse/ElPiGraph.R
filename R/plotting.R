@@ -11,20 +11,20 @@
 #'
 #' @examples
 plotMSDEnergyPlot <- function(ReportTable, Main = ''){
-  
+
   df <- rbind(data.frame(Nodes = as.integer(ReportTable[,"NNODES"]),
                    Value = as.numeric(ReportTable[,"ENERGY"]), Type = "Energy"),
               data.frame(Nodes = as.integer(ReportTable[,"NNODES"]),
                          Value = as.numeric(ReportTable[,"MSEP"]), Type = "MSEP")
   )
-                         
+
   p <- ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = Nodes, y = Value, color = Type, shape = Type),
                        environment = environment()) +
     ggplot2::geom_point() + ggplot2::geom_line() + ggplot2::facet_grid(Type~., scales = "free_y") +
     ggplot2::guides(color = "none", shape = "none") + ggplot2::ggtitle(Main)
-  
+
   return(p)
-  
+
 }
 
 
@@ -36,7 +36,7 @@ plotMSDEnergyPlot <- function(ReportTable, Main = ''){
 #' Accuracy-Complexity plot
 #'
 #' @param Main string, tht title of the plot
-#' @param Mode integer or string, the mode used to identify minima: if 'LocMin', the barcode of the 
+#' @param Mode integer or string, the mode used to identify minima: if 'LocMin', the barcode of the
 #' local minima will be plotted, if the number n, the barcode will be plotted each n configurations.
 #' If NULL, no barcode will be plotted
 #' @param Xlims a numeric vector of length 2 indicating the minimum and maximum of the x axis. If NULL (the default)
@@ -45,7 +45,7 @@ plotMSDEnergyPlot <- function(ReportTable, Main = ''){
 #' @param AdjFactor numeric, the factor used to adjust the values on the y axis (computed as UR*NNODE^AdjFactor)
 #'
 #' @return a ggplot plot
-#' @export 
+#' @export
 #'
 #' @examples
 accuracyComplexityPlot <- function(ReportTable, AdjFactor=1, Main = '', Mode = 'LocMin', Xlims = NULL){
@@ -56,17 +56,17 @@ accuracyComplexityPlot <- function(ReportTable, AdjFactor=1, Main = '', Mode = '
 
   YVal <- as.numeric(ReportTable[,"UR"])*(as.integer(ReportTable[,"NNODES"])^AdjFactor)
 
-  
+
   df <- data.frame(FVEP = as.numeric(ReportTable[,"FVEP"]), Comp = YVal)
-  
-  
+
+
   p <- ggplot2::ggplot(data = df, ggplot2::aes(x = FVEP, y = Comp), environment = environment()) +
     ggplot2::geom_point() + ggplot2::geom_line() +
     ggplot2::labs(title = Main, x = "Fraction of Explained Variance", y = "Geometrical Complexity") +
     ggplot2::coord_cartesian(xlim = Xlims)
-  
+
   TextMat <- NULL
- 
+
   if(Mode == 'LocMin'){
     for(i in 2:(length(YVal)-1)){
       xp = YVal[i-1]
@@ -80,7 +80,7 @@ accuracyComplexityPlot <- function(ReportTable, AdjFactor=1, Main = '', Mode = '
       }
     }
   }
-  
+
   if(is.numeric(Mode)){
     Mode = round(Mode)
 
@@ -90,21 +90,21 @@ accuracyComplexityPlot <- function(ReportTable, AdjFactor=1, Main = '', Mode = '
     if(Mode > 2){
       Mode <- Mode - 1
       Step <- (length(YVal) - 2)/Mode
-      
+
       for (i in seq(from=2+Step, to = length(YVal)-1, by = Step)) {
         TextMat <- rbind(TextMat, c(ReportTable[round(i),"FVEP"], y = YVal[round(i)], labels = ReportTable[round(i),"BARCODE"]))
       }
     }
-    
+
   }
-  
+
   if(!is.null(TextMat)){
     df2 <- data.frame(FVEP = as.numeric(TextMat[,1]), Comp = as.numeric(TextMat[,2]), Label = TextMat[,3])
-    
+
     p <- p + ggplot2::geom_text(data = df2, mapping = ggplot2::aes(x = FVEP, y = Comp, label = Label),
                                 check_overlap = TRUE, inherit.aes = FALSE, nudge_y = .005)
   }
-  
+
   return(p)
 }
 
@@ -124,7 +124,7 @@ accuracyComplexityPlot <- function(ReportTable, AdjFactor=1, Main = '', Mode = '
 #'
 #' @param X numerical 2D matrix, the n-by-m matrix with the position of n m-dimensional points
 #' @param TargetPG the main principal graph to plot
-#' @param Nodes integer, the vector of nodes to plot. If NULL, all the nodes will be plotted. 
+#' @param Nodes integer, the vector of nodes to plot. If NULL, all the nodes will be plotted.
 #' @param Graph a igraph object of the ElPiGraph, if NULL (the default) it will be computed by the function
 #' @param LayOut the global layout of yhe final network. It can be
 #' \itemize{
@@ -139,7 +139,7 @@ accuracyComplexityPlot <- function(ReportTable, AdjFactor=1, Main = '', Mode = '
 #' @param TreeRoot the id of the node to use as the root of the tree when LayOut = 'tree', multiple nodes are allowed.
 #' @param Main string, the title of the plot
 #' @param ScaleFunction function, a function used to scale the nuumber of points (sqrt by default)
-#' @param NodeSizeMult integer, an adjustment factor to control the size of the pies 
+#' @param NodeSizeMult integer, an adjustment factor to control the size of the pies
 #' @param ColCat string vector, a vector of colors to associate to each category
 #' @param GroupsLab string factor, a vector indicating the category of each data point
 #' @param Partition A vector associating each point to a node of the ElPiGraph. If NULL (the default), this will be computed
@@ -200,41 +200,40 @@ plotPieNet <- function(X,
   if(is.null(Partition)){
     print("Partition will be computed. Consider do that separetedly")
     Partition <- PartitionData(X = X, NodePositions = TargetPG$NodePositions,
-                               SquaredX = rowSums(X^2), TrimmingRadius = TrimmingRadius,
-                               nCores = 1)$Partition
+                               SquaredX = rowSums(X^2), TrimmingRadius = TrimmingRadius)$Partition
   }
 
   GroupPartTab <- matrix(0, nrow = nrow(TargetPG$NodePositions), ncol = length(ColCat))
   colnames(GroupPartTab) <- c(levels(GroupsLab), "None")
-  
+
   TTab <- table(Partition[Partition > 0], GroupsLab[Partition > 0])
   GroupPartTab[as.integer(rownames(TTab)), colnames(TTab)] <- TTab
-  
+
   Missing <- setdiff(1:nrow(TargetPG$NodePositions), unique(Partition))
-  
+
   if(length(Missing)>0){
     GroupPartTab[Missing, "None"] <- 1
   }
-  
+
   if(is.null(Graph)){
     print("A graph will be constructed. Consider do that separatedly")
     Net <- ConstructGraph(PrintGraph = TargetPG)
   } else {
     Net <- Graph
   }
-  
+
   if(is.null(NodeLabels)){
     igraph::V(Net)$lab <- 1:igraph::vcount(Net)
   } else {
     igraph::V(Net)$label <- NodeLabels
   }
-  
-  
+
+
   PieList <- apply(GroupPartTab, 1, list)
   PieList <- lapply(PieList, function(x){x[[1]]})
-  
+
   PieColList <- lapply(PieList, function(x){ColCat})
-  
+
   if(!is.null(Nodes)){
     Net <- igraph::induced.subgraph(Net, Nodes)
     PieList <- PieList[as.integer(names(igraph::V(Net)))]
@@ -242,7 +241,7 @@ plotPieNet <- function(X,
   } else {
     # NodePos <- TargetPG$NodePositions
   }
-  
+
   if(!is.null(ScaleFunction)){
     if(is.null(Nodes)){
       PieSize <- NodeSizeMult*do.call(what = ScaleFunction,
@@ -253,21 +252,21 @@ plotPieNet <- function(X,
                                                         levels = as.integer(names(igraph::V(Net)))
                                                         ))))
     }
-      
+
   } else {
     PieSize <- rep(NodeSizeMult, igraph::vcount(Net))
   }
-  
+
   PieSize[sapply(PieList, "[[", "None")>0] <- 0
-  
+
   LayOutDONE <- FALSE
-  
+
   if(LayOut == 'tree'){
     RestrNodes <- igraph::layout_as_tree(graph = igraph::as.undirected(Net, mode = 'collapse'), root = TreeRoot,
                                          rootlevel = RootLevel);
     LayOutDONE <- TRUE
   }
-  
+
   if(LayOut == 'circle'){
     IsoGaph <- igraph::graph.ring(n = igraph::vcount(Net), directed = FALSE, circular = TRUE)
     Iso <- igraph::graph.get.isomorphisms.vf2(igraph::as.undirected(Net, mode = 'collapse'), IsoGaph)
@@ -284,7 +283,7 @@ plotPieNet <- function(X,
       LayOutDONE <- TRUE
     }
   }
-  
+
   if(LayOut == 'circle_line'){
     IsoGaph <- igraph::graph.ring(n = igraph::vcount(Net), directed = FALSE, circular = FALSE)
     Iso <- igraph::graph.get.isomorphisms.vf2(igraph::as.undirected(Net, mode = 'collapse'), IsoGaph)
@@ -300,15 +299,15 @@ plotPieNet <- function(X,
       RestrNodes <- igraph::layout_in_circle(graph = Net, order = VerOrder$name)
       LayOutDONE <- TRUE
     }
-    
+
   }
-  
+
   if(LayOut == 'nicely'){
     RestrNodes <- igraph::layout_nicely(graph = Net)
     LayOutDONE <- TRUE
   }
-  
-  
+
+
   if(LayOut == 'kk'){
     tNet <- Net
     igraph::E(tNet)$weight <- NA
@@ -316,43 +315,43 @@ plotPieNet <- function(X,
       Nodes <- igraph::ends(tNet, edg)
       InC1 <- Partition == Nodes[1,1]
       InC2 <- Partition == Nodes[1,2]
-      
+
       if(any(InC1) & any(InC2)){
-        
+
         if(sum(InC1)>1){
           C1 <- colMeans(X[InC1,])
         } else {
           C1 <- X[InC1,]
         }
-        
+
         if(sum(InC2)>1){
           C2 <- colMeans(X[InC2,])
         } else {
           C2 <- X[InC2,]
         }
-        
+
         igraph::E(tNet)[edg]$weight <- sum(abs(C1 - C2))
       }
-      
+
     }
-    
+
     igraph::E(tNet)$weight[is.na(igraph::E(tNet)$weight)] <- min(igraph::E(tNet)$weight, na.rm = TRUE)/10
-    
+
     RestrNodes <- igraph::layout_with_kk(graph = igraph::as.undirected(tNet, mode = 'collapse'),
                                          weights = igraph::E(tNet)$weight, maxiter = LayoutIter)
     LayOutDONE <- TRUE
   }
-  
-  
-  
+
+
+
   if(LayOut == 'mds'){
-    
+
     NodeCentr <- matrix(NA, nrow = igraph::vcount(Net), ncol = ncol(X))
     rownames(NodeCentr) <- names(igraph::V(Net))
-    
+
     SelNodeCentr <- t(sapply(split(data.frame(X), Partition), colMeans))
     NodeCentr <- SelNodeCentr[rownames(NodeCentr), ]
-    
+
     NodeCentr_1 <- NodeCentr
 
     for(i in which(rowSums(is.na(NodeCentr))>0)){
@@ -364,68 +363,68 @@ plotPieNet <- function(X,
         }
       }
     }
-    
+
     RestrNodes <- igraph::layout_with_mds(graph = igraph::as.undirected(Net, mode = 'collapse'),
                                           dist = as.matrix(dist(NodeCentr_1, method = distMeth)))
     LayOutDONE <- TRUE
   }
-  
-  
-  
+
+
+
   if(LayOut == 'fr'){
-    
+
     tNet <- Net
     igraph::E(tNet)$weight <- NA
     for(edg in igraph::E(tNet)){
       Nodes <- igraph::ends(tNet, edg)
       InC1 <- Partition == Nodes[1,1]
       InC2 <- Partition == Nodes[1,2]
-      
+
       if(any(InC1) & any(InC2)){
-        
+
         if(sum(InC1)>1){
           C1 <- colMeans(X[InC1,])
         } else {
           C1 <- X[InC1,]
         }
-        
+
         if(sum(InC2)>1){
           C2 <- colMeans(X[InC2,])
         } else {
           C2 <- X[InC2,]
         }
-        
+
         igraph::E(tNet)[edg]$weight <- sum(abs(C1 - C2))
       }
-      
+
     }
-    
+
     igraph::E(tNet)$weight[is.na(igraph::E(tNet)$weight)] <- 10/min(igraph::E(tNet)$weight, na.rm = TRUE)
-    
+
     RestrNodes <- igraph::layout_with_fr(graph = tNet, niter = LayoutIter)
     LayOutDONE <- TRUE
   }
-  
-  
+
+
   if(!LayOutDONE){
     print(paste("LayOut =", LayOut, "unrecognised"))
     return(NULL)
   }
-  
-  
+
+
   igraph::plot.igraph(Net, layout = RestrNodes[,1:2], main = Main,
                       vertex.shape="pie", vertex.pie.color = PieColList,
                       vertex.pie=PieList, vertex.pie.border = NA,
                       vertex.size=PieSize,
                       edge.color = "black", vertex.label.dist = 0.7,
-                      vertex.label.color = "black", vertex.label.cex = LabSize)  
-  
+                      vertex.label.color = "black", vertex.label.cex = LabSize)
+
   if(Leg.cex>0){
-    
+
     legend(x = Leg.pos, legend = names(ColCat)[names(ColCat) != "" & !is.na(ColCat)],
            fill = ColCat[names(ColCat) != "" & !is.na(ColCat)], horiz = Leg.horiz, cex = Leg.cex)
   }
-  
+
 
 }
 
@@ -435,7 +434,7 @@ plotPieNet <- function(X,
 
 
 
-#' Plot data and principal graph(s) 
+#' Plot data and principal graph(s)
 #'
 #' @param X numerical 2D matrix, the n-by-m matrix with the position of n m-dimensional points
 #' @param TargetPG the main principal graph to plot
@@ -455,7 +454,7 @@ plotPieNet <- function(X,
 #' @param NodeLabels string vector, a vector indicating the label to be associted with each node of the graph
 #' @param LabMult numeric, a multiplier controlling the size of node labels
 #' @param Do_PCA bolean, should the node of the principal graph be used to derive principal component projections and
-#' rotate the space? If TRUE the plots will use the "EpG PC" as dimensions, if FALSE, the original dimensions will be used. 
+#' rotate the space? If TRUE the plots will use the "EpG PC" as dimensions, if FALSE, the original dimensions will be used.
 #' @param DimToPlot a integer vector specifing the PCs (if Do_PCA=TRUE) or dimension (if Do_PCA=FALSE) to plot. All the
 #' combination will be considered, so, for example, if DimToPlot = 1:3, three plot will be produced.
 #' @param VizMode vector of string, describing the ElPiGraphs to visualize. Any combination of "Target" and "Boot".
@@ -478,15 +477,15 @@ PlotPG <- function(X,
                    Do_PCA = TRUE,
                    DimToPlot = c(1,2),
                    VizMode = c("Target", "Boot")) {
-  
-  
+
+
   # X = Data.Kowa.CV$Analysis$FinalExpMat
   # TargetPG = Data.Kowa.CV$Analysis$FinalStruct
   # GroupsLab = Data.Kowa.CV$Analysis$FinalGroup
   # p.alpha = .4
   # Main = 'Kowalczyk et al (CV Sel)'
   # DimToPlot = 1:3
-  # 
+  #
   # BootPG = NULL
   # PGCol = "EPG"
   # PlotProjections = "none"
@@ -495,19 +494,19 @@ PlotPG <- function(X,
   # NodeLabels = NULL
   # LabMult = 1
   # Do_PCA = TRUE
-  # 
-  # 
-  
+  #
+  #
+
   if(length(PGCol) == 1){
     PGCol = rep(PGCol, nrow(TargetPG$NodePositions))
   }
-  
+
   if(is.null(GroupsLab)){
     GroupsLab = factor(rep("N/A", nrow(X)))
   }
-  
+
   levels(GroupsLab) <- c(levels(GroupsLab), unique(PGCol))
-  
+
   if(!is.null(PointSize)){
     if(!is.na(PointSize)){
       if(length(PointSize) == 1){
@@ -526,163 +525,163 @@ PlotPG <- function(X,
     DataVarPerc <- apply(X, 2, var)/sum(apply(X, 2, var))
     DimToPlot <- intersect(DimToPlot, 1:ncol(X))
   }
-  
-  
+
+
   # Base Data
-  
+
   AllComb <- combn(DimToPlot, 2)
-  
+
   PlotList <- list()
-  
+
   for(i in 1:ncol(AllComb)){
-    
+
     Idx1 <- AllComb[1,i]
     Idx2 <- AllComb[2,i]
-    
+
     if(Do_PCA){
       df1 <- data.frame(PCA = BaseData[,Idx1], PCB = BaseData[,Idx2], Group = GroupsLab)
     } else {
       df1 <- data.frame(PCA = BaseData[,Idx1], PCB = BaseData[,Idx2], Group = GroupsLab)
     }
-    
-    
+
+
     # Initialize plot
-    
+
     Inizialized <- FALSE
-    
+
     if(PointViz == "points"){
       p <- ggplot2::ggplot(data = df1, mapping = ggplot2::aes(x = PCA, y = PCB), environment = environment()) +
         ggplot2::geom_point(alpha = p.alpha, mapping = ggplot2::aes(color = Group))
       Inizialized <- TRUE
     }
-    
+
     if(PointViz == "density"){
       p <- ggplot2::ggplot(data = df1, mapping = ggplot2::aes(x = PCA, y = PCB), environment = environment()) +
         ggplot2::stat_density2d(geom="raster", ggplot2::aes(color = Group, fill = Group, alpha = ..density..), contour = FALSE) +
         ggplot2::theme_minimal()
       Inizialized <- TRUE
     }
-    
+
     if(!Inizialized){
       stop("Invalid point representaion selected")
     }
-    
+
     # Target graph
-    
+
     if(Do_PCA){
       RotData <- t(t(TargetPG$NodePositions) - CombPCA$center) %*% CombPCA$rotation
     } else {
       RotData <- TargetPG$NodePositions
     }
-    
-    
+
+
     tEdg <- t(sapply(1:nrow(TargetPG$Edges$Edges), function(i){
       Node_1 <- TargetPG$Edges$Edges[i, 1]
       Node_2 <- TargetPG$Edges$Edges[i, 2]
-      
+
       if(PGCol[Node_1] ==  PGCol[Node_2]){
         tCol = paste("ElPiG", PGCol[Node_1])
       }
-      
+
       if(PGCol[Node_1] !=  PGCol[Node_2]){
         tCol = "ElPiG Multi"
       }
-      
+
       if(any(PGCol[c(Node_1, Node_2)] == "None")){
         tCol = "ElPiG None"
       }
-      
+
       c(RotData[Node_1,c(Idx1, Idx2)], RotData[Node_2,c(Idx1, Idx2)], tCol)
     }))
-    
+
     AllEdg <- cbind(tEdg, 0)
-    
+
     if(Do_PCA){
       TarPGVarPerc <- (CombPCA$sdev^2)/sum(apply(TargetPG$NodePositions, 2, var))
     } else {
       TarPGVarPerc <- apply(TargetPG$NodePositions, 2, var)/sum(apply(TargetPG$NodePositions, 2, var))
     }
-    
+
     df2 <- data.frame(x = as.numeric(AllEdg[,1]),
                       y = as.numeric(AllEdg[,2]),
                       xend = as.numeric(AllEdg[,3]),
                       yend = as.numeric(AllEdg[,4]),
                       Col = AllEdg[,5],
                       Rep = as.numeric(AllEdg[,6]), stringsAsFactors = FALSE)
-    
+
     # df2$Col <- factor(df2$Col, levels = levels(GroupsLab))
-    
-    
+
+
     # Replicas
-    
+
     if(!is.null(BootPG) & ("Boot" %in% VizMode)){
       AllEdg <- lapply(1:length(BootPG), function(i){
         tTree <- BootPG[[i]]
-        
+
         if(Do_PCA){
           RotData <- t(t(tTree$NodePositions) - CombPCA$center) %*% CombPCA$rotation
         } else {
           RotData <- tTree$NodePositions
         }
-        
+
         tEdg <- t(sapply(1:nrow(tTree$Edges$Edges), function(i){
           c(RotData[tTree$Edges$Edges[i, 1],c(Idx1, Idx2)], RotData[tTree$Edges$Edges[i, 2],c(Idx1, Idx2)])
         }))
-        
+
         cbind(tEdg, i)
       })
-      
+
       AllEdg <- do.call(rbind, AllEdg)
-      
+
       df3 <- data.frame(x = AllEdg[,1], y = AllEdg[,2], xend = AllEdg[,3], yend = AllEdg[,4], Rep = AllEdg[,5])
-      
+
       p <- p + ggplot2::geom_segment(data = df3, mapping = ggplot2::aes(x=x, y=y, xend=xend, yend=yend),
                                      inherit.aes = FALSE, alpha = .2, color = "black")
-      
+
     }
-    
-    
-    
+
+
+
     # Plot projections
-    
-    
+
+
     if(PlotProjections == "onEdges"){
-      
+
       if(Do_PCA){
-        Partition <- PartitionData(X = BaseData, NodePositions = CombPCA$x, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf, nCores = 1)
+        Partition <- PartitionData(X = BaseData, NodePositions = CombPCA$x, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf)
         OnEdgProj <- project_point_onto_graph(X = BaseData, NodePositions = CombPCA$x, Edges = TargetPG$Edges$Edges, Partition = Partition$Partition)
       } else {
-        Partition <- PartitionData(X = BaseData, NodePositions = TargetPG$NodePositions, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf, nCores = 1)
+        Partition <- PartitionData(X = BaseData, NodePositions = TargetPG$NodePositions, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf)
         OnEdgProj <- project_point_onto_graph(X = BaseData, NodePositions = TargetPG$NodePositions, Edges = TargetPG$Edges$Edges, Partition = Partition$Partition)
       }
-      
+
       ProjDF <- data.frame(X = BaseData[,Idx1], Y = BaseData[,Idx2],
                            Xend = OnEdgProj$X_projected[,Idx1], Yend = OnEdgProj$X_projected[,Idx2],
                            Group = GroupsLab)
-      
+
       p <- p + ggplot2::geom_segment(data = ProjDF,
                                      mapping = ggplot2::aes(x=X, y=Y, xend = Xend, yend = Yend, col = Group), inherit.aes = FALSE)
     }
-    
+
     if(PlotProjections == "onNodes"){
-      
+
       if(Do_PCA){
-        Partition <- PartitionData(X = BaseData, NodePositions = CombPCA$x, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf, nCores = 1)
+        Partition <- PartitionData(X = BaseData, NodePositions = CombPCA$x, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf)
         ProjDF <- data.frame(X = BaseData[,Idx1], Y = BaseData[,Idx2],
                              Xend = CombPCA$x[Partition$Partition,Idx1], Yend = CombPCA$x[Partition$Partition,Idx2],
                              Group = GroupsLab)
       } else {
-        Partition <- PartitionData(X = BaseData, NodePositions = TargetPG$NodePositions, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf, nCores = 1)
+        Partition <- PartitionData(X = BaseData, NodePositions = TargetPG$NodePositions, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf)
         ProjDF <- data.frame(X = BaseData[,Idx1], Y = BaseData[,Idx2],
                              Xend = TargetPG$NodePositions[Partition$Partition,Idx1], Yend = TargetPG$NodePositions[Partition$Partition,Idx2],
                              Group = GroupsLab)
       }
-      
+
       p <- p + ggplot2::geom_segment(data = ProjDF,
                                      mapping = ggplot2::aes(x=X, y=Y, xend = Xend, yend = Yend, col = Group),
                                      inherit.aes = FALSE, alpha=.3)
     }
-    
+
     if("Target" %in% VizMode){
       if(is.factor(GroupsLab)){
         p <- p + ggplot2::geom_segment(data = df2, mapping = ggplot2::aes(x=x, y=y, xend=xend, yend=yend, col = Col),
@@ -692,14 +691,14 @@ PlotPG <- function(X,
                                        inherit.aes = FALSE)
       }
     }
-    
-    
+
+
     if(Do_PCA){
       df4 <- data.frame(PCA = CombPCA$x[,Idx1], PCB = CombPCA$x[,Idx2])
     } else {
       df4 <- data.frame(PCA = TargetPG$NodePositions[,Idx1], PCB = TargetPG$NodePositions[,Idx2])
     }
-    
+
     if("Target" %in% VizMode){
       if(!is.null(PointSize)){
         if(!is.na(PointSize)){
@@ -717,27 +716,27 @@ PlotPG <- function(X,
                                      inherit.aes = FALSE)
       }
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     if(!is.null(NodeLabels)){
-      
+
       if(Do_PCA){
         df4 <- data.frame(PCA = CombPCA$x[,Idx1], PCB = CombPCA$x[,Idx2], Lab = NodeLabels)
       } else {
         df4 <- data.frame(PCA = TargetPG$NodePositions[,Idx1], PCB = TargetPG$NodePositions[,Idx2], Lab = NodeLabels)
       }
-      
+
       p <- p + ggplot2::geom_text(mapping = ggplot2::aes(x = PCA, y = PCB, label = Lab),
                                   data = df4, hjust = 0,
                                   inherit.aes = FALSE, na.rm = TRUE,
                                   check_overlap = TRUE, color = "black", size = LabMult)
-      
+
     }
-    
+
     if(Do_PCA){
       LabX <- paste0("EpG PC", Idx1, " (Data var = ",  signif(100*DataVarPerc[Idx1], 3), "% / PG var = ", signif(100*TarPGVarPerc[Idx1], 3), "%)")
       LabY <- paste0("EpG PC", Idx2, " (Data var = ",  signif(100*DataVarPerc[Idx2], 3), "% / PG var = ", signif(100*TarPGVarPerc[Idx2], 3), "%)")
@@ -745,8 +744,8 @@ PlotPG <- function(X,
       LabX <- paste0("Dimension ", Idx1, " (Data var = ",  signif(100*DataVarPerc[Idx1], 3), "% / PG var = ", signif(100*TarPGVarPerc[Idx1], 3), "%)")
       LabY <- paste0("Dimension ", Idx2, " (Data var = ",  signif(100*DataVarPerc[Idx2], 3), "% / PG var = ", signif(100*TarPGVarPerc[Idx2], 3), "%)")
     }
-    
-    
+
+
     if(!is.na(TargetPG$FinalReport$FVEP)){
       p <- p + ggplot2::labs(x = LabX,
                              y = LabY,
@@ -766,13 +765,13 @@ PlotPG <- function(X,
       ) +
         ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
     }
-    
-    
+
+
     PlotList[[length(PlotList)+1]] <- p
-    
+
   }
-  
+
   return(PlotList)
-  
+
 }
 

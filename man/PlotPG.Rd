@@ -4,10 +4,11 @@
 \alias{PlotPG}
 \title{Plot data and principal graph(s)}
 \usage{
-PlotPG(X, TargetPG, BootPG = NULL, PGCol = "", PlotProjections = "none",
-  GroupsLab = NULL, PointViz = "points", Main = "", p.alpha = 0.3,
-  PointSize = NULL, NodeLabels = NULL, LabMult = 1, Do_PCA = TRUE,
-  DimToPlot = c(1, 2), VizMode = c("Target", "Boot"))
+PlotPG(X, TargetPG, BootPG = NULL, PGCol = "",
+  PlotProjections = "none", GroupsLab = NULL, PointViz = "points",
+  Main = "", p.alpha = 0.3, PointSize = NULL, NodeLabels = NULL,
+  LabMult = 1, Do_PCA = TRUE, DimToPlot = c(1, 2),
+  VizMode = c("Target", "Boot"))
 }
 \arguments{
 \item{X}{numerical 2D matrix, the n-by-m matrix with the position of n m-dimensional points}

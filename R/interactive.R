@@ -1,14 +1,14 @@
 #' Auxiliary function used by the shiny interface
 #'
-#' @param BaseData 
-#' @param TargetPG 
-#' @param CombPCA 
-#' @param Selected 
-#' @param PGCol 
-#' @param GroupsLab 
-#' @param PointSize 
-#' @param p.alpha 
-#' @param Main 
+#' @param BaseData
+#' @param TargetPG
+#' @param CombPCA
+#' @param Selected
+#' @param PGCol
+#' @param GroupsLab
+#' @param PointSize
+#' @param p.alpha
+#' @param Main
 #'
 #' @return
 #' @export
@@ -168,15 +168,15 @@ PlotShiny <- function(BaseData, TargetPG, CombPCA, Selected, AssociatedPoints = 
 
 
 
-#' Interactivelly modify data 
+#' Interactivelly modify data
 #'
-#' @param X 
-#' @param TargetPG 
-#' @param PGCol 
-#' @param GroupsLab 
-#' @param PointSize 
-#' @param p.alpha 
-#' @param Main 
+#' @param X
+#' @param TargetPG
+#' @param PGCol
+#' @param GroupsLab
+#' @param PointSize
+#' @param p.alpha
+#' @param Main
 #'
 #' @return
 #' @export
@@ -197,7 +197,7 @@ RearrangePlot <- function(X, TargetPG, PGCol = "EpG", GroupsLab = NULL, PointSiz
     PG.df <- data.frame(PC1 = CombPCA$x[,1], PC2 = CombPCA$x[,2], id=1:nrow(CombPCA$x))
 
     BaseData <- t(t(X) - CombPCA$center) %*% CombPCA$rotation
-    Partition <- PartitionData(X = BaseData, NodePositions = CombPCA$x, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf, nCores = 1)
+    Partition <- PartitionData(X = BaseData, NodePositions = CombPCA$x, SquaredX = rowSums(BaseData^2), TrimmingRadius = Inf)
 
     Selected <- rep(FALSE, nrow(PG.df))
     Points.Selected <- rep(FALSE, nrow(BaseData))
@@ -357,9 +357,9 @@ ExploreNei <- function(X) {
 
       if(length(DistData)>0){
         # df <- data.frame(x = log2(DVect), y = log2(DistData$PCount + 1))
-        
+
         df <- data.frame(x = log2(100*DVect+1), y = log2(DistData$PCount + 1)/log2(100*DVect+1))
-        
+
         out.lm <- lm(y~x, data=df)
         out.seg <- segmented::segmented(out.lm, seg.Z=~x)
 

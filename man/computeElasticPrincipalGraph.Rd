@@ -10,11 +10,12 @@ computeElasticPrincipalGraph(Data, NumNodes, NumEdges = Inf,
   TrimmingRadius = Inf, Do_PCA = TRUE, CenterData = TRUE,
   ComputeMSEP = TRUE, verbose = FALSE, ShowTimer = FALSE,
   ReduceDimension = NULL, drawAccuracyComplexity = TRUE,
-  drawPCAView = TRUE, drawEnergy = TRUE, n.cores = 1, ClusType = "Sock",
-  MinParOP = 20, Mode = 1, FinalEnergy = "Base", alpha = 0, beta = 0,
-  gamma = 0, GrowGrammars = list(), ShrinkGrammars = list(),
-  GrammarOptimization = FALSE, MaxSteps = Inf, GrammarOrder = c("Grow",
-  "Shrink"), FastSolve = FALSE, AvoidSolitary = FALSE, EmbPointProb = 1,
+  drawPCAView = TRUE, drawEnergy = TRUE, Mode = 1,
+  FinalEnergy = "Base", alpha = 0, beta = 0, gamma = 0,
+  GrowGrammars = list(), ShrinkGrammars = list(),
+  GrammarOptimization = FALSE, MaxSteps = Inf,
+  GrammarOrder = c("Grow", "Shrink"), FastSolve = FALSE,
+  AvoidSolitary = FALSE, EmbPointProb = 1,
   AdjustElasticMatrix = NULL, AdjustElasticMatrix.Initial = NULL,
   Lambda.Initial = NULL, Mu.Initial = NULL, ...)
 }
@@ -64,15 +65,6 @@ dimensionality reduction. If NULL all the components will be used}
 
 \item{drawEnergy}{boolean, should changes of evergy VS the number of nodes be reported?}
 
-\item{n.cores}{either an integer (indicating the number of cores to used for the creation of a cluster) or 
-cluster structure returned, e.g., by makeCluster. If a cluster structure is used, all the nodes must contains X
-(this is done using clusterExport)}
-
-\item{ClusType}{string, the type of cluster to use. It can gbe either "Sock" or "Fork".
-Currently fork clustering only works in Linux}
-
-\item{MinParOP}{integer, the minimum number of operations to use parallel computation}
-
 \item{Mode}{integer, the energy computation mode}
 
 \item{FinalEnergy}{string indicating the final elastic emergy associated with the configuration. Currently it can be "Base" or "Penalized"}
@@ -80,8 +72,6 @@ Currently fork clustering only works in Linux}
 \item{alpha}{positive numeric, the value of the alpha parameter of the penalized elastic energy}
 
 \item{beta}{positive numeric, the value of the beta parameter of the penalized elastic energy}
-
-\item{gamma}{}
 
 \item{GrowGrammars}{list of strings, the grammar to be used in the growth step}
 
@@ -100,8 +90,6 @@ If NULL (the default), no penalization will be used.}
 
 \item{AdjustElasticMatrix.Initial}{a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 If NULL (the default), no penalization will be used.}
-
-\item{Lambda.Initial}{}
 
 \item{Mu.Initial}{}
 

@@ -5,8 +5,8 @@
 \title{Move branching nodes to areas with higher point density}
 \usage{
 ShiftBranching(X, TargetPG, SelectionMode = "NodePoints",
-  DensityRadius = NA, MaxShift = 3, Compensate = FALSE, BrIds = NULL,
-  TrimmingRadius = Inf)
+  DensityRadius = NA, MaxShift = 3, Compensate = FALSE,
+  BrIds = NULL, TrimmingRadius = Inf)
 }
 \arguments{
 \item{X}{numeric matrix, the data matrix}

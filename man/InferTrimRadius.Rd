@@ -4,15 +4,10 @@
 \alias{InferTrimRadius}
 \title{Title}
 \usage{
-InferTrimRadius(X, nPoints = NULL, nInt = 100, plotCurves = FALSE,
-  n.cores = 1, ClusType = "FORK")
+InferTrimRadius(X, nPoints = NULL, nInt = 100, plotCurves = FALSE)
 }
 \arguments{
 \item{nInt}{}
-
-\item{n.cores}{}
-
-\item{ClusType}{}
 }
 \description{
 Title

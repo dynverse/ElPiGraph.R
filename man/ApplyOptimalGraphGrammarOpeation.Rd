@@ -5,10 +5,10 @@
 \title{Application of the grammar operation. This in an internal function that should not be used in by the end-user}
 \usage{
 ApplyOptimalGraphGrammarOpeation(X, NodePositions, ElasticMatrix,
-  AdjustVect = NULL, operationtypes, SquaredX = NULL, verbose = FALSE,
-  n.cores = 1, EnvCl = NULL, MinParOP = 20, MaxNumberOfIterations = 100,
-  eps = 0.01, TrimmingRadius = Inf, Mode = 1, FinalEnergy = "Base",
-  alpha = 1, beta = 1, gamma = 1, FastSolve = FALSE, EmbPointProb = 1,
+  AdjustVect = NULL, operationtypes, SquaredX = NULL,
+  verbose = FALSE, MaxNumberOfIterations = 100, eps = 0.01,
+  TrimmingRadius = Inf, Mode = 1, FinalEnergy = "Base", alpha = 1,
+  beta = 1, gamma = 1, FastSolve = FALSE, EmbPointProb = 1,
   AvoidSolitary = FALSE, AdjustElasticMatrix = NULL, ...)
 }
 \arguments{
@@ -18,21 +18,11 @@ ApplyOptimalGraphGrammarOpeation(X, NodePositions, ElasticMatrix,
 
 \item{ElasticMatrix}{numerical 2D matrix, the k-by-k elastic matrix}
 
-\item{AdjustVect}{}
-
 \item{operationtypes}{string vector containing the operation to use}
 
 \item{SquaredX}{rowSums(X^2), if NULL it will be computed}
 
 \item{verbose}{boolean. Should addition information be displayed}
-
-\item{n.cores}{integer. How many cores to use. If EnvCl is not NULL, that cliuster setup will be used,
-otherwise a SOCK cluster willbe used}
-
-\item{EnvCl}{a cluster structure returned, e.g., by makeCluster.
-If a cluster structure is used, all the nodes must be able to access all the variable needed by PrimitiveElasticGraphEmbedment}
-
-\item{MinParOP}{integer, the minimum number of operations to use parallel computation}
 
 \item{MaxNumberOfIterations}{is an integer number indicating the maximum number of iterations for the EM algorithm}
 
@@ -51,16 +41,12 @@ to be considered the graph embedded (convergence criteria)}
 
 \item{beta}{positive numeric, the value of the beta parameter of the penalized elastic energy}
 
-\item{gamma}{}
-
 \item{FastSolve}{boolean, should FastSolve be used when fitting the points to the data?}
 
 \item{EmbPointProb}{numeric between 0 and 1. If less than 1 point will be sampled at each iteration. Prob indicate the probability of
 using each points. This is an *experimental* feature, which may helps speeding up the computation if a large number of points is present.}
 
 \item{AvoidSolitary}{boolean, should configurations with "solitary nodes", i.e., nodes without associted points be discarded?}
-
-\item{AdjustElasticMatrix}{}
 
 \item{...}{}
 }

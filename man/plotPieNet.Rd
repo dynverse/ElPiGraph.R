@@ -4,12 +4,13 @@
 \alias{plotPieNet}
 \title{Plot a graph with pie chart associated with each node}
 \usage{
-plotPieNet(X, TargetPG, GroupsLab = NULL, Nodes = NULL, Partition = NULL,
-  TrimmingRadius = Inf, Graph = NULL, LayOut = "nicely",
-  LayoutIter = 500, TreeRoot = numeric(), RootLevel = numeric(),
-  distMeth = "manhattan", Main = "", ScaleFunction = sqrt,
-  NodeSizeMult = 1, ColCat = NULL, Leg.cex = 1, Leg.pos = "bottom",
-  Leg.horiz = TRUE, Arrow.size = 1, NodeLabels = NULL, LabSize = 1)
+plotPieNet(X, TargetPG, GroupsLab = NULL, Nodes = NULL,
+  Partition = NULL, TrimmingRadius = Inf, Graph = NULL,
+  LayOut = "nicely", LayoutIter = 500, TreeRoot = numeric(),
+  RootLevel = numeric(), distMeth = "manhattan", Main = "",
+  ScaleFunction = sqrt, NodeSizeMult = 1, ColCat = NULL,
+  Leg.cex = 1, Leg.pos = "bottom", Leg.horiz = TRUE,
+  Arrow.size = 1, NodeLabels = NULL, LabSize = 1)
 }
 \arguments{
 \item{X}{numerical 2D matrix, the n-by-m matrix with the position of n m-dimensional points}

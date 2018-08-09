@@ -4,27 +4,11 @@
 \alias{PlotShiny}
 \title{Auxiliary function used by the shiny interface}
 \usage{
-PlotShiny(BaseData, TargetPG, CombPCA, Selected, AssociatedPoints = FALSE,
-  PGCol = "EpG", GroupsLab = NULL, PointSize = 1, p.alpha = 0.4,
-  Main = "")
+PlotShiny(BaseData, TargetPG, CombPCA, Selected,
+  AssociatedPoints = FALSE, PGCol = "EpG", GroupsLab = NULL,
+  PointSize = 1, p.alpha = 0.4, Main = "")
 }
 \arguments{
-\item{BaseData}{}
-
-\item{TargetPG}{}
-
-\item{CombPCA}{}
-
-\item{Selected}{}
-
-\item{PGCol}{}
-
-\item{GroupsLab}{}
-
-\item{PointSize}{}
-
-\item{p.alpha}{}
-
 \item{Main}{}
 }
 \description{

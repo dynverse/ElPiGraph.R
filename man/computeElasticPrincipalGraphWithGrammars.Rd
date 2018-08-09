@@ -5,19 +5,19 @@
 \title{Conscruct a princial graph with the specified grammar}
 \usage{
 computeElasticPrincipalGraphWithGrammars(X, NumNodes, NumEdges = Inf,
-  InitNodes = 2, Lambda = 0.01, Mu = 0.1, GrowGrammars, ShrinkGrammars,
-  GrammarOptimization = FALSE, MaxSteps = Inf, GrammarOrder = c("Grow",
-  "Shrink"), MaxNumberOfIterations = 10, TrimmingRadius = Inf, eps = 0.01,
-  Do_PCA = TRUE, InitNodePositions = NULL, AdjustVect = NULL,
-  ElasticMatrix = NULL, InitEdges = NULL, CenterData = TRUE,
-  ComputeMSEP = TRUE, verbose = FALSE, ShowTimer = FALSE,
-  ReduceDimension = NULL, drawAccuracyComplexity = TRUE,
-  drawPCAView = TRUE, drawEnergy = TRUE, n.cores = 1, ClusType = "Sock",
-  MinParOP = MinParOP, nReps = 1, ParallelRep = FALSE, Subsets = list(),
-  ProbPoint = 1, Mode = 1, FinalEnergy = "Base", alpha = 0, beta = 0,
-  gamma = 0, FastSolve = FALSE, Configuration = NULL,
-  DensityRadius = NULL, AvoidSolitary = FALSE, EmbPointProb = 1,
-  SampleIC = TRUE, AvoidResampling = TRUE, AdjustElasticMatrix = NULL,
+  InitNodes = 2, Lambda = 0.01, Mu = 0.1, GrowGrammars,
+  ShrinkGrammars, GrammarOptimization = FALSE, MaxSteps = Inf,
+  GrammarOrder = c("Grow", "Shrink"), MaxNumberOfIterations = 10,
+  TrimmingRadius = Inf, eps = 0.01, Do_PCA = TRUE,
+  InitNodePositions = NULL, AdjustVect = NULL, ElasticMatrix = NULL,
+  InitEdges = NULL, CenterData = TRUE, ComputeMSEP = TRUE,
+  verbose = FALSE, ShowTimer = FALSE, ReduceDimension = NULL,
+  drawAccuracyComplexity = TRUE, drawPCAView = TRUE,
+  drawEnergy = TRUE, nReps = 1, Subsets = list(), ProbPoint = 1,
+  Mode = 1, FinalEnergy = "Base", alpha = 0, beta = 0, gamma = 0,
+  FastSolve = FALSE, Configuration = NULL, DensityRadius = NULL,
+  AvoidSolitary = FALSE, EmbPointProb = 1, SampleIC = TRUE,
+  AvoidResampling = TRUE, AdjustElasticMatrix = NULL,
   AdjustElasticMatrix.Initial = NULL, Lambda.Initial = NULL,
   Mu.Initial = NULL, ...)
 }
@@ -80,18 +80,7 @@ dimensionality reduction. If NULL all the components will be used}
 
 \item{drawEnergy}{boolean, should changes of evergy VS the number of nodes be reported?}
 
-\item{n.cores}{either an integer (indicating the number of cores to used for the creation of a cluster) or 
-cluster structure returned, e.g., by makeCluster. If a cluster structure is used, all the nodes must contains X
-(this is done using clusterExport)}
-
-\item{ClusType}{string, the type of cluster to use. It can gbe either "Sock" or "Fork".
-Currently fork clustering only works in Linux}
-
-\item{MinParOP}{integer, the minimum number of operations to use parallel computation}
-
 \item{nReps}{integer, number of replica of the construction}
-
-\item{ParallelRep}{boolean, should parallel execution be performed on the sampling instead of the the grammar evaluations?}
 
 \item{Subsets}{list of column names (or column number). When specified a principal tree will be computed for each of the subsets specified.}
 
@@ -104,8 +93,6 @@ Currently fork clustering only works in Linux}
 \item{alpha}{positive numeric, the value of the alpha parameter of the penalized elastic energy}
 
 \item{beta}{positive numeric, the value of the beta parameter of the penalized elastic energy}
-
-\item{gamma}{}
 
 \item{FastSolve}{boolean, should FastSolve be used when fitting the points to the data?}
 
