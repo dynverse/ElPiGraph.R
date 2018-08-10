@@ -171,10 +171,10 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
           if(AvoidResampling){
 
             InitialConf <-
-              ElPiGraph.R:::generateInitialConfiguration(X[SelPoints & !Used, ],
-                                                                  Nodes = InitNodes,
-                                                                  Configuration = Configuration,
-                                                                  DensityRadius = DensityRadius)
+              generateInitialConfiguration(X[SelPoints & !Used, ],
+                                           Nodes = InitNodes,
+                                           Configuration = Configuration,
+                                           DensityRadius = DensityRadius)
 
             Dist <- apply(distutils::PartialDistance(InitialConf$NodePositions, Br = X), 2, min)
 
@@ -191,10 +191,10 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
           } else {
             # Construct the initial configuration
             InitialConf <-
-              ElPiGraph.R:::generateInitialConfiguration(X[SelPoints, ],
-                                                         Nodes = InitNodes,
-                                                         Configuration = Configuration,
-                                                         DensityRadius = DensityRadius)
+              generateInitialConfiguration(X[SelPoints, ],
+                                           Nodes = InitNodes,
+                                           Configuration = Configuration,
+                                           DensityRadius = DensityRadius)
           }
 
         } else {
@@ -202,10 +202,10 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
           if(AvoidResampling){
 
             InitialConf <-
-              ElPiGraph.R:::generateInitialConfiguration(X[!Used, ],
-                                                         Nodes = InitNodes,
-                                                         Configuration = Configuration,
-                                                         DensityRadius = DensityRadius)
+              generateInitialConfiguration(X[!Used, ],
+                                           Nodes = InitNodes,
+                                           Configuration = Configuration,
+                                           DensityRadius = DensityRadius)
 
             Dist <- apply(distutils::PartialDistance(InitialConf$NodePositions, Br = X), 2, min)
 
@@ -224,10 +224,10 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
 
             # Construct the initial configuration
             InitialConf <-
-              ElPiGraph.R:::generateInitialConfiguration(X[, ],
-                                                         Nodes = InitNodes,
-                                                         Configuration = Configuration,
-                                                         DensityRadius = DensityRadius)
+              generateInitialConfiguration(X[, ],
+                                           Nodes = InitNodes,
+                                           Configuration = Configuration,
+                                           DensityRadius = DensityRadius)
           }
 
         }
@@ -236,10 +236,10 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
         InitEdges <- InitialConf$Edges
 
         # Compute the initial elastic matrix
-        ElasticMatrix <- ElPiGraph.R:::Encode2ElasticMatrix(Edges = InitialConf$Edges, Lambdas = Lambda, Mus = Mu)
+        ElasticMatrix <- Encode2ElasticMatrix(Edges = InitialConf$Edges, Lambdas = Lambda, Mus = Mu)
 
         # Compute the initial node position
-        InitNodePositions <- ElPiGraph.R:::PrimitiveElasticGraphEmbedment(
+        InitNodePositions <- PrimitiveElasticGraphEmbedment(
           X = X, NodePositions = InitialConf$NodePositions,
           MaxNumberOfIterations = MaxNumberOfIterations, TrimmingRadius = TrimmingRadius, eps = eps,
           ElasticMatrix = ElasticMatrix, Mode = Mode)$EmbeddedNodePositions
@@ -261,28 +261,28 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
       print(paste("Constructing tree", i, "of", nReps, "/ Subset", j, "of", length(Subsets)))
 
       # Run the ElPiGraph algorithm
-      ReturnList[[length(ReturnList)+1]] <- ElPiGraph.R:::computeElasticPrincipalGraph(Data = X[SelPoints, ], NumNodes = NumNodes, NumEdges = NumEdges,
-                                                                                       InitNodePositions = InitNodePositions, InitEdges = InitEdges, ElasticMatrix = ElasticMatrix,
-                                                                                       AdjustVect = AdjustVect,
-                                                                                       GrowGrammars = GrowGrammars,
-                                                                                       ShrinkGrammars = ShrinkGrammars,
-                                                                                       GrammarOptimization = GrammarOptimization,
-                                                                                       MaxSteps = MaxSteps,
-                                                                                       GrammarOrder = GrammarOrder,
-                                                                                       MaxNumberOfIterations = MaxNumberOfIterations, TrimmingRadius = TrimmingRadius, eps = eps,
-                                                                                       Lambda = Lambda, Mu = Mu, Do_PCA = Do_PCA,
-                                                                                       CenterData = CenterData, ComputeMSEP = ComputeMSEP,
-                                                                                       verbose = verbose, ShowTimer = ShowTimer,
-                                                                                       ReduceDimension = ReduceDimension, Mode = Mode,
-                                                                                       FinalEnergy = FinalEnergy, alpha = alpha, beta = beta, gamma = gamma,
-                                                                                       drawAccuracyComplexity = Intermediate.drawAccuracyComplexity,
-                                                                                       drawPCAView = Intermediate.drawPCAView,
-                                                                                       drawEnergy = Intermediate.drawEnergy,
-                                                                                       FastSolve = FastSolve, AvoidSolitary = AvoidSolitary,
-                                                                                       EmbPointProb = EmbPointProb, AdjustElasticMatrix = AdjustElasticMatrix,
-                                                                                       AdjustElasticMatrix.Initial = AdjustElasticMatrix.Initial,
-                                                                                       Lambda.Initial = Lambda.Initial, Mu.Initial = Mu.Initial,
-                                                                                       ...)
+      ReturnList[[length(ReturnList)+1]] <- computeElasticPrincipalGraph(Data = X[SelPoints, ], NumNodes = NumNodes, NumEdges = NumEdges,
+                                                                         InitNodePositions = InitNodePositions, InitEdges = InitEdges, ElasticMatrix = ElasticMatrix,
+                                                                         AdjustVect = AdjustVect,
+                                                                         GrowGrammars = GrowGrammars,
+                                                                         ShrinkGrammars = ShrinkGrammars,
+                                                                         GrammarOptimization = GrammarOptimization,
+                                                                         MaxSteps = MaxSteps,
+                                                                         GrammarOrder = GrammarOrder,
+                                                                         MaxNumberOfIterations = MaxNumberOfIterations, TrimmingRadius = TrimmingRadius, eps = eps,
+                                                                         Lambda = Lambda, Mu = Mu, Do_PCA = Do_PCA,
+                                                                         CenterData = CenterData, ComputeMSEP = ComputeMSEP,
+                                                                         verbose = verbose, ShowTimer = ShowTimer,
+                                                                         ReduceDimension = ReduceDimension, Mode = Mode,
+                                                                         FinalEnergy = FinalEnergy, alpha = alpha, beta = beta, gamma = gamma,
+                                                                         drawAccuracyComplexity = Intermediate.drawAccuracyComplexity,
+                                                                         drawPCAView = Intermediate.drawPCAView,
+                                                                         drawEnergy = Intermediate.drawEnergy,
+                                                                         FastSolve = FastSolve, AvoidSolitary = AvoidSolitary,
+                                                                         EmbPointProb = EmbPointProb, AdjustElasticMatrix = AdjustElasticMatrix,
+                                                                         AdjustElasticMatrix.Initial = AdjustElasticMatrix.Initial,
+                                                                         Lambda.Initial = Lambda.Initial, Mu.Initial = Mu.Initial,
+                                                                         ...)
 
       # Save extra information
       ReturnList[[length(ReturnList)]]$SubSetID <- j
@@ -309,7 +309,7 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
       if(is.null(InitNodePositions) | (is.null(InitEdges) & is.null(ElasticMatrix))){
 
         # areconstruct the initial configuration
-        InitialConf <- ElPiGraph.R:::generateInitialConfiguration(AllPoints, Nodes = InitNodes, Configuration = Configuration, DensityRadius = DensityRadius)
+        InitialConf <- generateInitialConfiguration(AllPoints, Nodes = InitNodes, Configuration = Configuration, DensityRadius = DensityRadius)
 
         # print(InitialConf)
 
@@ -320,14 +320,14 @@ computeElasticPrincipalGraphWithGrammars <- function(X,
         EM <- Encode2ElasticMatrix(Edges = InitialConf$Edges, Lambdas = Lambda, Mus = Mu)
 
         # Compute the initial node position
-        InitNodePositions <- ElPiGraph.R:::PrimitiveElasticGraphEmbedment(
+        InitNodePositions <- PrimitiveElasticGraphEmbedment(
           X = X, NodePositions = InitialConf$NodePositions,
           MaxNumberOfIterations = MaxNumberOfIterations, TrimmingRadius = TrimmingRadius, eps = eps,
           ElasticMatrix = EM, Mode = Mode)$EmbeddedNodePositions
       }
 
 
-      ReturnList[[length(ReturnList)+1]] <- ElPiGraph.R:::computeElasticPrincipalGraph(Data = AllPoints, NumNodes = NumNodes, NumEdges = NumEdges,
+      ReturnList[[length(ReturnList)+1]] <- computeElasticPrincipalGraph(Data = AllPoints, NumNodes = NumNodes, NumEdges = NumEdges,
                                                                          InitNodePositions = InitNodePositions, InitEdges = InitEdges, ElasticMatrix = ElasticMatrix,
                                                                          AdjustVect = AdjustVect,
                                                                          GrowGrammars = GrowGrammars,

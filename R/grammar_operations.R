@@ -35,7 +35,7 @@ f_reattach_edges <- function(ElasticMatrix, NodeNumber1, NodeNumber2) {
 
 
 f_add_nonconnected_node <- function(NodePositions, ElasticMatrix, NewNodePosition) {
-   # add a new non-connected node
+  # add a new non-connected node
 
   NodePositions2 <- rbind(NodePositions, as.vector(NewNodePosition))
 
@@ -98,51 +98,51 @@ GraphGrammarOperation <- function(X, NodePositions, ElasticMatrix, AdjustVect, t
 
   if(type == 'addnode2node'){
     return(
-      ElPiGraph.R:::AddNode2Node(X = X, NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, Partition = Partition, AdjustVect = AdjustVect)
+      AddNode2Node(X = X, NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, Partition = Partition, AdjustVect = AdjustVect)
     )
   }
 
   if(type == 'addnode2node_1'){
     return(
-      ElPiGraph.R:::AddNode2Node(X = X, NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, Partition = Partition,
-                                 AdjustVect = AdjustVect, Max_K = 1)
+      AddNode2Node(X = X, NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, Partition = Partition,
+                   AdjustVect = AdjustVect, Max_K = 1)
     )
   }
 
   if(type == 'addnode2node_2'){
     return(
-      ElPiGraph.R:::AddNode2Node(X = X, NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, Partition = Partition,
-                                 AdjustVect = AdjustVect, Max_K = 2)
+      AddNode2Node(X = X, NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, Partition = Partition,
+                   AdjustVect = AdjustVect, Max_K = 2)
     )
   }
 
   if(type == 'removenode'){
     return(
-      ElPiGraph.R:::RemoveNode(NodePositions = NodePositions, ElasticMatrix =  ElasticMatrix, AdjustVect = AdjustVect)
+      RemoveNode(NodePositions = NodePositions, ElasticMatrix =  ElasticMatrix, AdjustVect = AdjustVect)
     )
   }
 
   if(type == 'bisectedge'){
     return(
-      ElPiGraph.R:::BisectEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect)
-      )
+      BisectEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect)
+    )
   }
 
   if(type == 'bisectedge_3'){
     return(
-      ElPiGraph.R:::BisectEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect, Min_K = 3)
+      BisectEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect, Min_K = 3)
     )
   }
 
   if(type == 'shrinkedge'){
     return(
-      ElPiGraph.R:::ShrinkEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect)
+      ShrinkEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect)
     )
   }
 
   if(type == 'shrinkedge_3'){
     return(
-      ElPiGraph.R:::ShrinkEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect, Min_K = 3)
+      ShrinkEdge(NodePositions = NodePositions, ElasticMatrix = ElasticMatrix, AdjustVect = AdjustVect, Min_K = 3)
     )
   }
 
@@ -585,7 +585,7 @@ ApplyOptimalGraphGrammarOpeation <- function(X,
       print(paste(i, 'Operation type =', operationtypes[i]))
     }
 
-    NewMatrices <- ElPiGraph.R:::GraphGrammarOperation(X = X, NodePositions = NodePositions,
+    NewMatrices <- GraphGrammarOperation(X = X, NodePositions = NodePositions,
                                          ElasticMatrix = ElasticMatrix, type = operationtypes[i],
                                          Partition = Partition, AdjustVect = AdjustVect)
 
@@ -613,9 +613,9 @@ ApplyOptimalGraphGrammarOpeation <- function(X,
   if(AvoidSolitary){
     Valid <- sapply(Valid, function(i){
       Partition <- ElPiGraph.R::PartitionData(X = X,
-                                 NodePositions = NodePositionArrayAll[[i]],
-                                 SquaredX = SquaredX,
-                                 TrimmingRadius = TrimmingRadius)$Partition
+                                              NodePositions = NodePositionArrayAll[[i]],
+                                              SquaredX = SquaredX,
+                                              TrimmingRadius = TrimmingRadius)$Partition
       if(all(1:nrow(NodePositionArrayAll[[i]]) %in% Partition)){
         return(i)
       }
@@ -642,20 +642,20 @@ ApplyOptimalGraphGrammarOpeation <- function(X,
   # print(paste("DEBUG:", TrimmingRadius))
 
   Embed <- lapply(CombinedInfo, function(input){
-    ElPiGraph.R:::PrimitiveElasticGraphEmbedment(X = X,
-                                                 NodePositions = input$NodePositions,
-                                                 ElasticMatrix = input$ElasticMatrix,
-                                                 SquaredX = SquaredX,
-                                                 verbose = FALSE,
-                                                 MaxNumberOfIterations = MaxNumberOfIterations,
-                                                 eps = eps,
-                                                 FinalEnergy = FinalEnergy,
-                                                 alpha = alpha,
-                                                 beta = beta,
-                                                 Mode = Mode,
-                                                 TrimmingRadius = TrimmingRadius,
-                                                 FastSolve = FastSolve,
-                                                 prob = EmbPointProb)
+    PrimitiveElasticGraphEmbedment(X = X,
+                                   NodePositions = input$NodePositions,
+                                   ElasticMatrix = input$ElasticMatrix,
+                                   SquaredX = SquaredX,
+                                   verbose = FALSE,
+                                   MaxNumberOfIterations = MaxNumberOfIterations,
+                                   eps = eps,
+                                   FinalEnergy = FinalEnergy,
+                                   alpha = alpha,
+                                   beta = beta,
+                                   Mode = Mode,
+                                   TrimmingRadius = TrimmingRadius,
+                                   FastSolve = FastSolve,
+                                   prob = EmbPointProb)
   })
 
   if(length(Embed)==0){
