@@ -125,8 +125,6 @@ If NULL, the value of Mu will be used.}
 
 \item{...}{optional parameter that will be passed to the AdjustElasticMatrix function}
 
-\item{ParallelRep}{boolean, should parallel execution be performed on the sampling instead of the the grammar evaluations?}
-}
 \value{
 A list of principal graph strucutures containing the trees constructed during the different replica of the algorithm.
 If the number of replicas is larger than 1. The the final element of the list is the "average tree", which is constructed by

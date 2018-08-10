@@ -12,7 +12,6 @@
 #' @param Configuration string, initial configuration type.
 #' @param DensityRadius numeric, the radius used to estimate local density. This need to be set when ICOver is equal to "Density"
 #' @param SampleIC boolean, should the initial configuration be considered on the sampled points when applicable?
-#' @param ParallelRep boolean, should parallel execution be performed on the sampling instead of the the grammar evaluations?
 #' @param AvoidResampling booleand, should the sampling of initial conditions avoid reselecting the same points
 #' (or points neighbors if DensityRadius is specified)?
 #'
