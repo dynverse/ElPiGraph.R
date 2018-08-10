@@ -7,8 +7,6 @@
 RemoveNodesbyIDs(TargetPG, NodesToRemove)
 }
 \arguments{
-\item{TargetPG}{}
-
 \item{NodesToRemove}{}
 }
 \value{

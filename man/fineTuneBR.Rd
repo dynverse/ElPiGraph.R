@@ -36,7 +36,9 @@ in the initial step}
 
 \item{InitEdges}{numerical 2D matrix, the e-by-2 matrix with e end-points of the edges connecting the nodes}
 
-\item{ElasticMatrix}{numerical 2D matrix, the k-by-k elastic matrix}
+\item{ElasticMatrix}{numerical 2D matrix, the e-by-e matrix containing the elasticity parameters of the edges}
+
+\item{MaxSteps}{integer, max number of applications of the grammar. This value need to be less than infinity if GrammarOptimization is set to true}
 
 \item{MaxNumberOfIterations}{integer, maximum number of steps to embed the nodes in the data}
 
@@ -101,10 +103,10 @@ If NULL (the default), no penalization will be used.}
 \item{AdjustElasticMatrix.Initial}{a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 If NULL (the default), no penalization will be used.}
 
-\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associted with ther initial configuration if needed.
+\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associated with ther initial configuration if needed.
 If NULL, the value of Lambda will be used.}
 
-\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associted with ther initial configuration if needed.
+\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associated with ther initial configuration if needed.
 If NULL, the value of Mu will be used.}
 
 \item{...}{optional parameter that will be passed to the AdjustElasticMatrix function}
@@ -112,7 +114,7 @@ If NULL, the value of Mu will be used.}
 \value{
 A list of principal graph strucutures containing the curves constructed during the different replica of the algorithm.
 If the number of replicas is larger than 1. The the final element of the list is the "average curve", which is constructed by
-fitting the coordinates of the nodes of the reconstructed curves
+fitting the coordinates of the nodes of the reconstructed curves.
 }
 \description{
 This function is a wrapper to the computeElasticPrincipalGraph function that construct the appropriate initial graph and grammars

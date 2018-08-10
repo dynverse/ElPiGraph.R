@@ -8,10 +8,6 @@ CollapseCliques(TargetPG, MaxClZize = NULL, DistThr = NULL,
   Compensate = 3)
 }
 \arguments{
-\item{TargetPG}{}
-
-\item{MaxClZize}{}
-
 \item{DistThr}{}
 }
 \description{

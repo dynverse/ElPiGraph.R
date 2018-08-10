@@ -2,7 +2,7 @@
 % Please edit documentation in R/topologies.R
 \name{computeElasticPrincipalTree}
 \alias{computeElasticPrincipalTree}
-\title{Conscruct a princial elastic tree}
+\title{Conscruct a principal elastic tree}
 \usage{
 computeElasticPrincipalTree(X, NumNodes, NumEdges = Inf, InitNodes = 2,
   Lambda = 0.01, Mu = 0.1, MaxNumberOfIterations = 10,
@@ -45,7 +45,7 @@ in the initial step}
 
 \item{InitEdges}{numerical 2D matrix, the e-by-2 matrix with e end-points of the edges connecting the nodes}
 
-\item{ElasticMatrix}{numerical 2D matrix, the k-by-k elastic matrix}
+\item{ElasticMatrix}{numerical 2D matrix, the e-by-e matrix containing the elasticity parameters of the edges}
 
 \item{AdjustVect}{boolean vector keeping track of the nodes for which the elasticity parameters have been adjusted.
 When true for a node its elasticity parameters will not be adjusted.}
@@ -105,10 +105,10 @@ If NULL (the default), no penalization will be used.}
 \item{AdjustElasticMatrix.Initial}{a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 If NULL (the default), no penalization will be used.}
 
-\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associted with ther initial configuration if needed.
+\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associated with ther initial configuration if needed.
 If NULL, the value of Lambda will be used.}
 
-\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associted with ther initial configuration if needed.
+\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associated with ther initial configuration if needed.
 If NULL, the value of Mu will be used.}
 
 \item{...}{optional parameter that will be passed to the AdjustElasticMatrix function}
@@ -116,14 +116,13 @@ If NULL, the value of Mu will be used.}
 \value{
 A list of principal graph strucutures containing the trees constructed during the different replica of the algorithm.
 If the number of replicas is larger than 1. The the final element of the list is the "average tree", which is constructed by
-fitting the coordinates of the nodes of the reconstructed trees
+fitting the coordinates of the nodes of the reconstructed trees.
 }
 \description{
 This function is a wrapper to the computeElasticPrincipalGraph function that construct the appropriate initial graph and grammars
 when constructing a tree
 }
 \examples{
-
 Elastic trees with different parameters
 PG <- computeElasticPrincipalTree(X = tree_data, NumNodes = 50, InitNodes = 2, verbose = TRUE)
 

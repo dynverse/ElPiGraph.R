@@ -54,10 +54,10 @@ contruction of the principal graph be compiled?}
 \item{MaxFailedOperations}{integer, the maximum allowed number of consecutive failed grammar operations,
 i.e. appplication of the single grammar operations, that did not produce any valid configuration}
 
-\item{MaxSteps}{integer, the maximum allowed number of steps of the algorithm. Each step is composed by the application of
-all the specified grammar operations}
+\item{MaxSteps}{integer, max number of applications of the grammar. This value need to be less than infinity if GrammarOptimization is set to true}
 
-\item{GrammarOptimization}{boolean, should the grammar be used to optimize the graph? If true a number MaxSteps of operations will be applied.}
+\item{GrammarOptimization}{boolean, should grammar optimization be perfomred? If true grammar operations that do not increase the number of
+nodes will be allowed}
 
 \item{eps}{real, minimal relative change in the position of the nodes to stop embedment}
 
@@ -82,6 +82,8 @@ If NULL (the default), no penalization will be used.}
 
 \item{AdjustElasticMatrix.Initial}{a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 If NULL (the default), no penalization will be used.}
+
+\item{...}{optional parameter that will be passed to the AdjustElasticMatrix function}
 }
 \value{
 a named list with a number of elements:

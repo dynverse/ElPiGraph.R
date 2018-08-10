@@ -77,9 +77,16 @@ dimensionality reduction. If NULL all the components will be used}
 
 \item{ShrinkGrammars}{list of strings, the grammar to be used in the shrink step}
 
+\item{GrammarOptimization}{boolean, should grammar optimization be perfomred? If true grammar operations that do not increase the number of
+nodes will be allowed}
+
+\item{MaxSteps}{integer, max number of applications of the grammar. This value need to be less than infinity if GrammarOptimization is set to true}
+
+\item{GrammarOrder}{vector of strings, the order of application of the grammars. Can be any combination of "Grow" and "Shrink"}
+
 \item{FastSolve}{boolean, should FastSolve be used when fitting the points to the data?}
 
-\item{AvoidSolitary}{boolean, should configurations with "solitary nodes", i.e., nodes without associated points be discarded?}
+\item{AvoidSolitary}{boolean, should configurations with "solitary nodes", i.e., nodes without associted points be discarded?}
 
 \item{EmbPointProb}{numeric between 0 and 1. If less than 1 point will be sampled at each iteration.
 EmbPointProb indicates the probability of using each points. This is an *experimental* feature, which may
@@ -91,9 +98,13 @@ If NULL (the default), no penalization will be used.}
 \item{AdjustElasticMatrix.Initial}{a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 If NULL (the default), no penalization will be used.}
 
-\item{Mu.Initial}{}
+\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associated with ther initial configuration if needed.
+If NULL, the value of Lambda will be used.}
 
-\item{...}{optional parameter that will be passed to the AdjustHOS function}
+\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associated with ther initial configuration if needed.
+If NULL, the value of Mu will be used.}
+
+\item{...}{optional parameter that will be passed to the AdjustElasticMatrix function}
 }
 \value{
 a named list with a number of elements:

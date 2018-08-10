@@ -2,7 +2,7 @@
 % Please edit documentation in R/BaseElPiWrapper.R
 \name{computeElasticPrincipalGraphWithGrammars}
 \alias{computeElasticPrincipalGraphWithGrammars}
-\title{Conscruct a princial graph with the specified grammar}
+\title{Conscruct a principal graph with the specified grammar}
 \usage{
 computeElasticPrincipalGraphWithGrammars(X, NumNodes, NumEdges = Inf,
   InitNodes = 2, Lambda = 0.01, Mu = 0.1, GrowGrammars,
@@ -43,7 +43,7 @@ nodes will be allowed}
 
 \item{MaxSteps}{integer, max number of applications of the grammar. This value need to be less than infinity if GrammarOptimization is set to true}
 
-\item{GrammarOrder}{character vector, the order of application of the grammars. It can be any combination of "Grow" and "Shrink"}
+\item{GrammarOrder}{vector of strings, the order of application of the grammars. Can be any combination of "Grow" and "Shrink"}
 
 \item{MaxNumberOfIterations}{integer, maximum number of steps to embed the nodes in the data}
 
@@ -59,7 +59,7 @@ in the initial step}
 \item{AdjustVect}{boolean vector keeping track of the nodes for which the elasticity parameters have been adjusted.
 When true for a node its elasticity parameters will not be adjusted.}
 
-\item{ElasticMatrix}{numerical 2D matrix, the k-by-k elastic matrix}
+\item{ElasticMatrix}{numerical 2D matrix, the e-by-e matrix containing the elasticity parameters of the edges}
 
 \item{InitEdges}{numerical 2D matrix, the e-by-2 matrix with e end-points of the edges connecting the nodes}
 
@@ -117,13 +117,15 @@ If NULL (the default), no penalization will be used.}
 \item{AdjustElasticMatrix.Initial}{a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 If NULL (the default), no penalization will be used.}
 
-\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associted with ther initial configuration if needed.
+\item{Lambda.Initial}{real, the lambda parameter used the construct the elastic matrix associated with ther initial configuration if needed.
 If NULL, the value of Lambda will be used.}
 
-\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associted with ther initial configuration if needed.
+\item{Mu.Initial}{real, the mu parameter used the construct the elastic matrix associated with ther initial configuration if needed.
 If NULL, the value of Mu will be used.}
 
-\item{...}{optional parameter that will be passed to the AdjustHOS function}
+\item{...}{optional parameter that will be passed to the AdjustElasticMatrix function}
+
+\item{ParallelRep}{boolean, should parallel execution be performed on the sampling instead of the the grammar evaluations?}
 }
 \value{
 A list of principal graph strucutures containing the trees constructed during the different replica of the algorithm.
