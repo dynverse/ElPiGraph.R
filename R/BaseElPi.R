@@ -34,9 +34,9 @@
 #' helps speeding up the computation if a large number of points is present.
 #' @param MaxFailedOperations integer, the maximum allowed number of consecutive failed grammar operations,
 #' i.e. appplication of the single grammar operations, that did not produce any valid configuration
-#' @param MaxSteps integer, the maximum allowed number of steps of the algorithm. Each step is composed by the application of
-#' all the specified grammar operations
-#' @param GrammarOptimization boolean, should the grammar be used to optimize the graph? If true a number MaxSteps of operations will be applied.
+#' @param MaxSteps integer, max number of applications of the grammar. This value need to be less than infinity if GrammarOptimization is set to true
+#' @param GrammarOptimization boolean, should grammar optimization be perfomred? If true grammar operations that do not increase the number of
+#' nodes will be allowed
 #' @param AdjustElasticMatrix a penalization function to adjust the elastic matrices after a configuration has been chosen (e.g., AdjustByConstant).
 #' If NULL (the default), no penalization will be used.
 #' @param AdjustVect boolean vector keeping track of the nodes for which the elasticity parameters have been adjusted.
@@ -45,6 +45,7 @@
 #' @param verbose
 #' @param AdjustElasticMatrix.Initial a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
 #' If NULL (the default), no penalization will be used.
+#' @param ... optional parameter that will be passed to the AdjustElasticMatrix function
 #'
 #' @return a named list with a number of elements:
 #' \describe{
@@ -418,13 +419,10 @@ ElPrincGraph <- function(X,
 #' This allow to perform basic data regularization before constructing a principla elastic graph.
 #' The function also allows plotting the results.
 #'
+#' @inheritParams ElPrincGraph
 #' @param Data numerical 2D matrix, the n-by-m matrix with the position of n m-dimensional points
-#' @param NumNodes integer, the number of nodes of the principal graph
-#' @param Lambda real, the lambda parameter used the compute the elastic energy
-#' @param Mu real, the lambda parameter used the compute the elastic energy
 #' @param Do_PCA boolean, should data and initial node positions be PCA trnasformed?
 #' @param CenterData boolean, should data and initial node positions be centered?
-#' @param ComputeMSEP boolean, should MSEP be computed when building the report?
 #' @param ReduceDimension integer vector, vector of principal components to retain when performing
 #' dimensionality reduction. If NULL all the components will be used
 #' @param drawAccuracyComplexity boolean, should the accuracy VS complexity plot be reported?
@@ -438,29 +436,14 @@ ElPrincGraph <- function(X,
 #' @param eps real, minimal relative change in the position of the nodes to stop embedment
 #' @param TrimmingRadius real, maximal distance of point from a node to affect its embedment
 #' @param verbose boolean, should debugging information be reported?
-#' @param ShowTimer boolean, should the time to construct the graph be computed and reported for each step?
-#' @param GrowGrammars list of strings, the grammar to be used in the growth step
-#' @param ShrinkGrammars list of strings, the grammar to be used in the shrink step
-#' @param NumEdges integer, the maximum nulber of edges
-#' @param Mode integer, the energy computation mode
-#' @param FastSolve boolean, should FastSolve be used when fitting the points to the data?
-#' @param AvoidSolitary boolean, should configurations with "solitary nodes", i.e., nodes without associated points be discarded?
-#' @param EmbPointProb numeric between 0 and 1. If less than 1 point will be sampled at each iteration.
-#' EmbPointProb indicates the probability of using each points. This is an *experimental* feature, which may
-#' helps speeding up the computation if a large number of points is present.
-#' @param FinalEnergy string indicating the final elastic emergy associated with the configuration. Currently it can be "Base" or "Penalized"
-#' @param alpha positive numeric, the value of the alpha parameter of the penalized elastic energy
-#' @param beta positive numeric, the value of the beta parameter of the penalized elastic energy
-#' @param ... optional parameter that will be passed to the AdjustHOS function
 #' @param AdjustVect boolean vector keeping track of the nodes for which the elasticity parameters have been adjusted.
 #' When true for a node its elasticity parameters will not be adjusted.
-#' @param gamma
 #' @param AdjustElasticMatrix a penalization function to adjust the elastic matrices after a configuration has been chosen (e.g., AdjustByConstant).
 #' If NULL (the default), no penalization will be used.
-#' @param AdjustElasticMatrix.Initial a penalization function to adjust the elastic matrices of the initial configuration (e.g., AdjustByConstant).
-#' If NULL (the default), no penalization will be used.
-#' @param Lambda.Initial
-#' @param Mu.Initial
+#' @param Lambda.Initial real, the lambda parameter used the construct the elastic matrix associated with ther initial configuration if needed.
+#' If NULL, the value of Lambda will be used.
+#' @param Mu.Initial real, the mu parameter used the construct the elastic matrix associated with ther initial configuration if needed.
+#' If NULL, the value of Mu will be used.
 #'
 #' @return a named list with a number of elements:
 #' \describe{
