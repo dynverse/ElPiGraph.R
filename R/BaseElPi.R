@@ -62,7 +62,7 @@
 #'
 #' @examples
 #'
-#' This is a low level function. See  \code{\link{computeElasticPrincipalCircle}},
+#' @seealso This is a low level function. See  \code{\link{computeElasticPrincipalCircle}},
 #' \code{\link{computeElasticPrincipalCurve}}, or \code{\link{computeElasticPrincipalTree}}
 #' for examples
 #'
@@ -461,7 +461,7 @@ ElPrincGraph <- function(X,
 #'
 #' @examples
 #'
-#' This is a low level function. See  \code{\link{computeElasticPrincipalCircle}},
+#' @seealso This is a low level function. See  \code{\link{computeElasticPrincipalCircle}},
 #' \code{\link{computeElasticPrincipalCurve}}, or \code{\link{computeElasticPrincipalTree}}
 #' for examples
 #'

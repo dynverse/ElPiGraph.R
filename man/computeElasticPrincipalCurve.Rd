@@ -124,7 +124,7 @@ when constructing a curve
 }
 \examples{
 
-Elastic curve with different parameters
+# Elastic curve with different parameters
 PG <- computeElasticPrincipalCurve(X = tree_data, NumNodes = 30, InitNodes = 2, verbose = TRUE)
 PG <- computeElasticPrincipalCurve(X = circle_data, NumNodes = 30, InitNodes = 2, verbose = TRUE)
 
@@ -132,7 +132,7 @@ PG <- computeElasticPrincipalCurve(X = tree_data, NumNodes = 30, InitNodes = 2, 
 PG <- computeElasticPrincipalCurve(X = circle_data, NumNodes = 30, InitNodes = 2, verbose = TRUE, Mu = 1, Lambda = .001)
 
 
-Bootstrapping the construction of the curve
+# Bootstrapping the construction of the curve
 PG <- computeElasticPrincipalCurve(X = tree_data, NumNodes = 40, InitNodes = 2,
 drawAccuracyComplexity = FALSE, drawPCAView = FALSE, drawEnergy = FALSE,
 verbose = FALSE, nReps = 50, ProbPoint = .8)
